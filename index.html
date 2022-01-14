@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Geosearch Web application</title>
+        <meta charset="UTF-8">
+        <meta name="keyword" content="Geosearch">
+        <meta name="description" content="This application is meant to demonstrate skills in HTML5, CSS3 and JavaScript">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="refresh" content="10800">
+        <script src="https://kit.fontawesome.com/dba6734bcb.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/style_mq.css">
+        <link rel="application/text" href="./scripts/script.js">
+    </head>
+    <body>
+        <nav id="navbar-container">
+            <div id="navbar">
+                <header id="logo-container">
+                    <h1>GeoSearch</h1>
+                    <img src="./assets/silverheart-64x64.png" width=26px height=25px alt="geo-search-logo" id="geo-search-logo">
+                </header>
+                <div id="search-bar-container">
+                    <input type="search" id="search-bar" placeholder="Search a place...">
+                    <button id="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="main-container">
+            <main id="main">
+                <iframe
+                    id="map"
+                    frameborder="0"
+                    scrolling="no"
+                    loading="lazy" 
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDZJpUJo63HxFIUJEHOSX_L-5PyUmucYTk
+                    &q=Space+Needle,Seattle+WA"
+                >
+                </iframe>
+            </main>
+            <aside id="navigation">
+                <section id="place-details">
+                    <div id="place">
+                        <h2 id="current-place">Abuja</h2>
+                        <p id="current-zip-code">560101</p>
+                        <p id="Time"><span id="timezone">GMT+1, </span><time>7:13:15</time></p>
+                    </div>
+                    <div id="weather-details">
+                        <div class="weather">
+                            <i class="open-weather-cloud">Cloud-figure</i>
+                            <span>Broken Cloud</span>
+                        </div>
+                        <div class="weather">
+                            <label for="temperature" class="wlabels"><strong>Temperature:</strong></label>
+                            <input type="text" id="temperature" name="temperature" disabled value=109C>
+                        </div>
+                        <div class="weather">
+                            <button id="convert-temperature"> Convert to Fahrenheit</button>
+                        </div>                        
+                        <div class="weather">
+                            <label for="wind-speed" class="wlabels"><strong>Wind Speed:</strong></label>
+                            <input type="text" id="wind-speed" name="wind-speed" disabled value=56mph>
+                        </div>
+                        <div class="weather">
+                            <label for="humidity" class="wlabels"><strong>Humidity:</strong></label>
+                            <input type="text" id="humidity" name="humidity" disabled value=46ba>
+                        </div>
+                    </div>
+                </section>
+                <section id="notable-places-container">
+                    <h3>Notable places</h3>
+<!--                    <div class="notable-places-card">
+                        <div>
+                            <img alt="notable-places-img" class="notable-places-img" src="./assets/image64x64.jpg">
+                        </div>
+                        <div class ="notable-places-description">
+                            <div id="first">
+                                <h3>Shoprite Ikeja City Mall</h3>
+                                <div>ratings ****</div>
+                                <p>Supermarket</p>
+                                <p>Open market 21:00</p>
+                            </div>
+                            <div id="second"><a href="#"><i class="fab fa-2x fa-facebook-square">Facebook</i></a></div>
+                        </div>
+                    </div>
+                    <div class="notable-places-card">
+                        <div>
+                            <img alt="notable-places-img" class="notable-places-img" src="./assets/image64x64.jpg">
+                        </div>
+                        <div class ="notable-places-description">
+                            <div id="first">
+                                <h3>Shoprite Ikeja City Mall</h3>
+                                <div>ratings ****</div>
+                                <p>Supermarket</p>
+                                <p>Open market 21:00</p>
+                            </div>
+                            <div id="second"><a href="#"><i class="fab fa-2x fa-facebook-square">Facebook</i></a></div>
+                        </div>
+                    </div>  -->
+                </section>
+            </aside>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+@media only screen and (min-width: 459px){
+    nav#navbar-container{
+        padding: 0px;
+    }
+    div#navbar{
+        background-color: var(--bluish);
+        padding: 12px;
+        justify-content: space-between;
+        border: none;
+        border-radius: none;
+    }
+    header#logo-container{
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+    }
+    header#logo-container > h1{
+        display: inline-block;
+    }
+    img#geo-search-logo{
+        margin-left: 8px;
+    }
+    div#search-bar-container{
+        display: flex;
+        justify-content: space-between;
+        border: 3px solid var(--chosen-grey);
+        border-radius: 8px;
+    }
+    #search-bar{
+        width: 280px;
+        height: 40px;
+    }
+}
+@media only screen and (min-width: 768px){
+    nav#navbar-container{
+        padding: 0px;
+    }
+    nav#navbar{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    aside#navigation{
+        width: 30%;
+        position: fixed;
+        left: 0px;
+        float: left;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    .wlabels{
+        width: 60%;
+    }
+    main#main{
+        position: fixed;
+        right: 0px;
+        display: flex;
+        width: 70%;
+        height: 95vh;
+        justify-content: center;
+        align-items: center;
+    }
+    iframe#map{
+        margin: auto;
+        width: 90%;
+        height: 80%;    
+    }
+}
+@media only screen and (min-width: 880px){
+    .wlabels{
+        width: 70%;
+    }
+    button#convert-temperature{
+        width: 97%;
+    }
+}
+@media only screen and (min-width: 938px){
+
+    button#convert-temperature{
+        width: 94%;
+    }
+}
+@media only screen and (min-width: 965px){
+
+}
+@media only screen and (min-width: 1033px){
+    button#convert-temperature{
+        width: 92%;
+    }
+}
+@media only screen and (min-width: 1140px){
+    button#convert-temperature{
+        width: 90%;
+    }
+}
