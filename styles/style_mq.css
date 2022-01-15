@@ -7,7 +7,7 @@
         padding: 12px;
         justify-content: space-between;
         border: none;
-        border-radius: none;
+        border-radius: 0px;
     }
     header#logo-container{
         display: flex;
