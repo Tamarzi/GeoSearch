@@ -35,14 +35,14 @@ const autocomplete = {
         
         if(evt.key == "ArrowDown"){
             this.currentFocus++;
-            this.currentFocus = this.currentActiveCheck(x, this.currentFocus);     //using object and classes would have prevented this mistake
-            this.removeActiveItem(this.x);
+            this.currentActiveCheck();     //using object and classes would have prevented this mistake
+            this.removeActiveItem();
             this.x[this.currentFocus].classList.add("autocomplete-active");
         }
         else if(evt.key == "ArrowUp"){  //Others: ArrowLeft & ArrowRight
             this.currentFocus--;
-            this.currentFocus = this.currentActiveCheck(x, this.currentFocus);
-            this.removeActiveItem(x);
+            this.currentActiveCheck();
+            this.removeActiveItem();
             this.x[this.currentFocus].classList.add("autocomplete-active");
         }
     },
@@ -54,16 +54,16 @@ const autocomplete = {
             if(autoComListClass[i])
                 this.formContainer.removeChild(autoComListClass[i]);
         }
+
+        //set currentFocus = -1 everytime the lists is closed.
+        this.currentFocus = -1;
     },
     
     currentActiveCheck(){
-    
         if(this.currentFocus >= this.x.length)
             this.currentFocus = 0;
         else if(this.currentFocus < 0)
             this.currentFocus = this.x.length - 1;
-
-        return this.currentFocus;
     },
 
     removeActiveItem(){
