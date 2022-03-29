@@ -11,8 +11,8 @@ const autocomplete = {
         searchQueryResults.map((result) => {
             const autoComDiv = document.createElement("div");
             
-            autoComDiv.innerHTML += "<span><i></i></span>";
-            autoComDiv.innerHTML += "<span><strong>" + result.displayString.substr(0, inp.value.length) + "</strong>" + result.displayString.substr(inp.value.length) + "</span>"
+            autoComDiv.innerHTML += "<span style = 'display: inline-block; padding: 10px; height: 100%'><i class='fas fa-2x fa-map-marker-alt'></i></span>";
+            autoComDiv.innerHTML += "<span style ='display: inline-block'><strong>" + result.displayString.substr(0, inp.value.length) + "</strong>" + result.displayString.substr(inp.value.length) + "</span>"
 
             autoComDiv.addEventListener("click", (e) => {
                 inp.value = e.target.textContent;
