@@ -1,44 +1,21 @@
-@media only screen and (min-width: 459px){
-    nav#navbar-container{
-        padding: 0px;
+@media only screen and (min-width: 400px){
+    input[type="search"]{
+        width: 325px;
     }
-    div#navbar{
-        background-color: var(--bluish);
-        padding: 12px;
-        justify-content: space-between;
-        border: none;
-        border-radius: 0px;
+}
+@media only screen and (min-width: 450px){
+    form{
+        margin-right: 30px;
     }
-    header#logo-container{
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-    }
-    header#logo-container > h1{
+}
+@media only screen and (min-width: 587px){
+    h2.h1{
         display: inline-block;
-        text-shadow: 2px 2px 2px var(--text-grey);
-    }
-    img#geo-search-logo{
-        margin-left: 8px;
-    }
-    div#search-bar-container{
-        display: flex;
-        justify-content: space-between;
-        border: 3px solid var(--chosen-grey);
-        border-radius: 8px;
-    }
-    #search-bar{
-        width: 280px;
-        height: 40px;
     }
 }
 @media only screen and (min-width: 768px){
-    nav#navbar-container{
-        padding: 0px;
-    }
-    nav#navbar{
-        padding-left: 20px;
-        padding-right: 20px;
+    div#header-icon{
+        padding: 20px;
     }
     aside#navigation{
         width: 30%;
@@ -91,5 +68,8 @@
 @media only screen and (min-width: 1140px){
     button#convert-temperature{
         width: 90%;
+    }
+    iframe#map{
+        border: 1px solid var(--shadow-grey);
     }
 }
