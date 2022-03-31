@@ -2,6 +2,7 @@ import {gmt, currentTime} from "./time.js";
 import {reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
+import weatherQuery from "./weatherqueries.js";
 
 const currentPlacesUI = {
     async init(){
@@ -11,8 +12,6 @@ const currentPlacesUI = {
         this.placeWeatherBoardElement = document.getElementById("place-weather-board");
         this.placeWeatherBoardElement.innerHTML = `<div class="loaderspin"></div>`;
 
-        //this.weather = await weatherQuery(); 
-
 //        renderMap(this.mapFrame, this.coordinates);
         this.renderPlaceWeatherBoard();
     },
@@ -20,6 +19,7 @@ const currentPlacesUI = {
     async renderPlaceWeatherBoard(){
         const coordinates = await coords();
         const {state, country} = await reverseGeoCode(coordinates);
+        const weather = await weatherQuery();
 
         this.weatherIconElement = "../assets/heartpoint-64x64.png";
         this.weatherIconName = "Broken Cloud";
