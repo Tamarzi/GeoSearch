@@ -61,7 +61,7 @@ const currentPlacesUI = {
 
         const conversionButton = ((this.temperatureUnit === "celsius")? this.fahrenheitButtonElement:this.celsiusButtonElement);
     }
-},
+}
 
 const searchButtonUI = {
     async init(){      
