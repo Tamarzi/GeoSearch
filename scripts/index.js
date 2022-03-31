@@ -40,8 +40,8 @@ const currentPlacesUI = {
     },
 
     renderPlaceBoard(){
-        this.countrySpanElement.innerText = "GB";
-        this.stateSpanElement.innerText = "London";
+        this.countrySpanElement.innerText = "US";
+        this.stateSpanElement.innerText = "Washington";
 
         this.weatherIconElement.src = "../assets/heartpoint-64x64.png";
         this.weatherIconName = "Broken Cloud";
