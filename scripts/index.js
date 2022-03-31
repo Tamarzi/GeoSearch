@@ -5,61 +5,76 @@ import coords from "./coordinates.js";
 
 const currentPlacesUI = {
     async init(){
-        this.temperatureUnit = "celsius";
+        this.temperatureUnit = "C";
         //Set the map to the iframe element with id=map.
         this.mapFrame = document.getElementById("map");
-//        this.weatherBoardElement = document.createElement("div");
+        this.placeWeatherBoardElement = document.getElementById("place-weather-board");
+        this.placeWeatherBoardElement.innerHTML = `<div class="loaderspin"></div>`;
 
-        this.placeNameElement = document.getElementById("place-name");
-        this.stateSpanElement = document.getElementById("state");
-        this.countrySpanElement = document.getElementById("country");
-        this.weatherIconElement = document.getElementById("weather-icon");
-        this.weatherIconName = document.getElementById("weather-icon-name");
-
-        this.temperatureValueElement = document.querySelector("#temperature > .value");
-        this.temperatureUnitElement = document.querySelector("#temperature > .unit");
-
-        this.windValueElement = document.querySelector("#wind-wrapper > .value");
-
-        this.humidityValueElement = document.querySelector("#humidity-wrapper > .value");
-
-        this.pressureValueElement = document.querySelector("#pressure-wrapper > .value");
-
-        this.fahrenheitButtonElement = document.createElement("button");
-        this.celsiusButtonElement = document.createElement("button");
-
-//        this.coordinates = await coords();
-//        this.place = await reverseGeoCode(this.coordinates);
-        //this.weather = await weatherConditions(); 
-
-//        console.log(this.coordinates);
+        //this.weather = await weatherQuery(); 
 
 //        renderMap(this.mapFrame, this.coordinates);
-        this.renderPlaceBoard();
-        this.renderWeatherBoard();
+        this.renderPlaceWeatherBoard();
     },
 
-    renderPlaceBoard(){
-        this.countrySpanElement.innerText = "US";
-        this.stateSpanElement.innerText = "Washington";
+    async renderPlaceWeatherBoard(){
+        const coordinates = await coords();
+        const {state, country} = await reverseGeoCode(coordinates);
 
-        this.weatherIconElement.src = "../assets/heartpoint-64x64.png";
+        this.weatherIconElement = "../assets/heartpoint-64x64.png";
         this.weatherIconName = "Broken Cloud";
-    },
+        this.weatherTemp = 6;
+        this.weatherWind = 33;
+        this.weatherHumidity = 80;
+        this.weatherPressure = 1115;
 
-    renderWeatherBoard(){
-        this.temperatureValueElement.innerText = 20;
-        this.temperatureUnitElement.innnerHTML = "C";
-        this.windValueElement.innerText = 10;
-        this.humidityValueElement.innerText = 90;
-        this.pressureValueElement.innerText = 1010;
-
-        this.fahrenheitButtonElement.setAttribute("class", "temperature-converter");
-        this.fahrenheitButtonElement.textContent = "To Fahrenheit";
-        this.celsiusButtonElement.setAttribute("class", "temperature-converter");
-        this.celsiusButtonElement.textContent = "To Celsius";
-
-        const conversionButton = ((this.temperatureUnit === "celsius")? this.fahrenheitButtonElement:this.celsiusButtonElement);
+        const pwbwrapperMarkup = `
+        <div id="pwb-wrapper">
+            <div id="pb-wrapper">
+                <div id="place-board">
+                    <p>CURRENT LOCATION:</p>
+                    <h2 id="place-name">
+                        <span id="state">${state}</span>, 
+                        <span id="country">${country}</span>
+                    </h2>
+                </div>
+                <div id="weather-icon-wrapper">
+                    <img src=${this.weatherIconElement} alt="weather-icon" id="weather-icon">
+                    <div id="weather-icon-name">${this.weathericonName}</div>
+                </div>
+            </div>
+            <h4>Weather Condition</h4>
+            <div id="wb-wrapper">
+                <div id="temperature-wrapper">
+                    <div id="temperature">
+                        <span class="value">${this.weatherTemp}</span>
+                        <span class="degree">&deg</span>
+                        <span class="unit">${this.temperatureUnit}</span>
+                    </div>
+                    <button class="temperature-converter">To Fahrenheit</button>
+                </div>
+                <div id="weather-condition-wrapper">
+                    <div id="wind-wrapper">
+                        <span class="wname">Wind</span>
+                        <span class="value">${this.weatherWind}</span> 
+                        <span class="unit">m/s</span>
+                    </div>
+                    <div id="humidity-wrapper">
+                        <span class="wname">Humidity</span>
+                        <span class="value">${this.weatherHumidity}</span> 
+                        <span class="unit">&#37</span>
+                    </div>
+                    <div id="pressure-wrapper">
+                        <span class="wname">Pressure</span>
+                        <span class="value">${this.weatherPressure}</span> 
+                        <span class="unit">Pa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+        this.placeWeatherBoardElement.innerHTML = ``;
+        this.placeWeatherBoardElement.innerHTML = pwbwrapperMarkup;
     }
 }
 
