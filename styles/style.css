@@ -115,41 +115,46 @@ section#place-weather-board{
     box-shadow: 1.5px 1.5px 1.5px 1.5px var(--shadow-grey);
     padding: 20px;
 }
-div#placeboard {
+
+#pb-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
 }
-div#placeboard > div{
-    padding: 20px;
-    flex: 45%;
-    width: 45%;
-    margin-bottom: 10px;
+#place-board{
+    flex: 68%;
+    max-width: 68%;
 }
-div#gmtboard > p {
-    font-size: 1.8em;
+#weather-icon-wrapper{
+    flex: 28%;
+    max-width: 28%;
 }
-div#weatherboard{
+
+#wb-wrapper{
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding: 5px;
 }
-div#weatherboard p{
-    text-shadow: 2px 2px 2px var(--shadow-grey);
-    cursor: pointer;
+#temperature-wrapper{
+    flex: 59%;
+    max-width: 59%;
 }
-div#weatherboard > div {
-    flex: 30%;
-    text-align: center;
+#temperature-wrapper span{
+    font-size: 5em;
 }
-div#weatherboard h4{
-    padding-bottom: 5px;
+#weather-condition-wrapper{
+    margin-top: 20px;
+    flex: 39%;
+    max-width: 39%;
 }
-div#weatherboard span{
-    font-size: 2em;
+#weather-condition-wrapper div{
+    margin: 5px;
 }
-button#convert-temperature{
+.wname{
+    font-weight: bold;
+    display: inline-block;
+    width: 50%;
+}
+
+button.temperature-converter{
     display: block;
     width: 80%;
     margin-top: 8px;
@@ -205,10 +210,10 @@ img.notable-places-img{
 
 /*Load spinner*/
 div.loaderspin{
-    width: 50px;
-    height: 50px;
-    margin: 100px auto;
-    border: 4px solid #f3f3f3;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    border: 6px solid #f3f3f3;
     border-top: 6px solid dodgerblue;
     border-radius: 50%;
     animation: spin 1s linear infinite;

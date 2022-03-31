@@ -5,89 +5,61 @@ import coords from "./coordinates.js";
 
 const currentPlacesUI = {
     async init(){
+        this.temperatureUnit = "celsius";
         //Set the map to the iframe element with id=map.
         this.mapFrame = document.getElementById("map");
-        this.placeBoardElement = document.createElement("div");
 //        this.weatherBoardElement = document.createElement("div");
-        this.placeWeatherBoardElement = document.getElementById("place-weather-board");
-        this.coordinates = await coords();
-        this.place = await reverseGeoCode(this.coordinates);
+
+        this.placeNameElement = document.getElementById("place-name");
+        this.stateSpanElement = document.getElementById("state");
+        this.countrySpanElement = document.getElementById("country");
+        this.weatherIconElement = document.getElementById("weather-icon");
+        this.weatherIconName = document.getElementById("weather-icon-name");
+
+        this.temperatureValueElement = document.querySelector("#temperature > .value");
+        this.temperatureUnitElement = document.querySelector("#temperature > .unit");
+
+        this.windValueElement = document.querySelector("#wind-wrapper > .value");
+
+        this.humidityValueElement = document.querySelector("#humidity-wrapper > .value");
+
+        this.pressureValueElement = document.querySelector("#pressure-wrapper > .value");
+
+        this.fahrenheitButtonElement = document.createElement("button");
+        this.celsiusButtonElement = document.createElement("button");
+
+//        this.coordinates = await coords();
+//        this.place = await reverseGeoCode(this.coordinates);
         //this.weather = await weatherConditions(); 
 
-        console.log(this.coordinates);
+//        console.log(this.coordinates);
 
-        renderMap(this.mapFrame, this.coordinates);
-        this.clearPlaceWeatherBoard();
+//        renderMap(this.mapFrame, this.coordinates);
         this.renderPlaceBoard();
-//        renderWeatherBoard();
-    },
-
-    clearPlaceWeatherBoard(){
-        this.placeWeatherBoardElement.innerHTML = "";
-    },
-
-    placeValidation(){
-        if(!this.place.town){
-            this.place.town = "town Undetected";
-        }
-        if(!this.place.state){
-            this.place.state = "state undetected";
-        }
-        if(!this.place.city){
-            this.place.city = "city undetected";
-        }
-        if(!this.place.country){
-            this.place.country = "country undetected";
-        }
-        if(!this.place.postalCode){
-            this.place.postalCode = "postalCode undetected";
-        }
+        this.renderWeatherBoard();
     },
 
     renderPlaceBoard(){
-        this.placeValidation();
-        this.placeBoardElement.setAttribute("id", "placeboard");
-        this.placeBoardElement.innerHTML = 
-            `<div>
-                <p>CURRENT LOCATION:</p>
-                <h2 id="town">${this.place.town.toString()}</h2>
-                <p>
-                    <span id="city">${this.place.city.toString()}</span>, 
-                    <span id="state">${this.place.state.toString()}</span>, 
-                    <span id="country"${this.place.country.toString()}</span>
-                </p>
-                <p id="zipcode">${this.place.postalCode.toString()}</p>
-            </div>
-            <div id="gmtboard">
-                <p>GMT + <span id="time">${gmt()}</span></p>
-            </div>`;
+        this.countrySpanElement.innerText = "GB";
+        this.stateSpanElement.innerText = "London";
 
-            this.placeWeatherBoardElement.append(this.placeBoardElement);
+        this.weatherIconElement.src = "../assets/heartpoint-64x64.png";
+        this.weatherIconName = "Broken Cloud";
     },
 
     renderWeatherBoard(){
-        this.weatherBoardElement.setAttribute("id", "weatherboard");
-        this.weatherBoardElement.innerHTML = 
-            `<div id="weatherboard">
-                <div id="temperature">
-                    <h4>Temperature</h4>
-                    <p><i class="fas fa-3x fa-thermometer-full"></i></p>
-                    <p><span>${temperature}</span><span>C</span></p>
-                    <button id="convert-temperature">Fahrenheit</button>
-                </div>
-                <div id="windspeed">
-                    <h4>Windspeed</h4>
-                    <p><i class="fas fa-3x fa-wind"></i></p>
-                    <p><span>${windspeed}</span><span>mps</span></p>
-                </div>
-                <div id="humidity">
-                    <h4>Humidity</h4>
-                    <p><i class="fas fa-3x fa-atom"></i></p>
-                    <p><span>${humidity}</span><span>g/kg</span></p>
-                </div>
-            </div>`;
+        this.temperatureValueElement.innerText = 20;
+        this.temperatureUnitElement.innnerHTML = "C";
+        this.windValueElement.innerText = 10;
+        this.humidityValueElement.innerText = 90;
+        this.pressureValueElement.innerText = 1010;
 
-            this.placeWeatherBoardElement.append(this.weatherBoardElement);
+        this.fahrenheitButtonElement.setAttribute("class", "temperature-converter");
+        this.fahrenheitButtonElement.textContent = "To Fahrenheit";
+        this.celsiusButtonElement.setAttribute("class", "temperature-converter");
+        this.celsiusButtonElement.textContent = "To Celsius";
+
+        const conversionButton = ((this.temperatureUnit === "celsius")? this.fahrenheitButtonElement:this.celsiusButtonElement);
     }
 }
 
