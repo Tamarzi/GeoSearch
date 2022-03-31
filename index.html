@@ -44,7 +44,30 @@
             </main>
             <aside id="navigation">
                 <section id="place-weather-board">
-                    <div class="loaderspin"></div>
+                    <div id="pwb-wrapper">
+                        <div id="pb-wrapper">
+                            <div id="place-board">
+                                <p>CURRENT LOCATION:</p>
+                                <h2 id="place-name"><span id="state">Abuja</span>, <span id="country">NG</span></h2>
+                            </div>
+                            <div id="weather-icon-wrapper">
+                                <img src="./assets/heartpoint-64x64.png" alt="weather-icon" id="weather-icon">
+                                <div id="weather-icon-name">Broken Cloud</div>
+                            </div>
+                        </div>
+                        <h4>Weather Condition</h4>
+                        <div id="wb-wrapper">
+                            <div id="temperature-wrapper">
+                                <div id="temperature"><span class="value">11</span><span class="degree">&deg</span><span class="unit">C</span></div>
+                                <button class="temperature-converter">To Fahrenheit</button>
+                            </div>
+                            <div id="weather-condition-wrapper">
+                                <div id="wind-wrapper"><span class="wname">Wind</span><span class="value">5.1</span> <span class="unit">m/s</span></div>
+                                <div id="humidity-wrapper"><span class="wname">Humidity</span><span class="value">77</span> <span class="unit">&#37</span></div>
+                                <div id="pressure-wrapper"><span class="wname">Pressure</span><span class="value">1010</span> <span class="unit">Pa</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <section id="notable-places-container">
 <!--                    <h3>Notable places</h3>
