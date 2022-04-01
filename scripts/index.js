@@ -2,7 +2,7 @@ import {gmt, currentTime} from "./time.js";
 import {reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
-import weatherQuery from "./weatherqueries.js";
+import {weatherQueriesWithCoord} from "./weatherqueries.js";
 
 const currentPlacesUI = {
     async init(){
@@ -19,14 +19,8 @@ const currentPlacesUI = {
     async renderPlaceWeatherBoard(){
         const coordinates = await coords();
         const {state, country} = await reverseGeoCode(coordinates);
-        const weather = await weatherQuery();
-
-        this.weatherIconElement = "../assets/heartpoint-64x64.png";
-        this.weatherIconName = "Broken Cloud";
-        this.weatherTemp = 6;
-        this.weatherWind = 33;
-        this.weatherHumidity = 80;
-        this.weatherPressure = 1115;
+        const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(coordinates);
+        const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
         const pwbwrapperMarkup = `
         <div id="pwb-wrapper">
@@ -39,15 +33,15 @@ const currentPlacesUI = {
                     </h2>
                 </div>
                 <div id="weather-icon-wrapper">
-                    <img src=${this.weatherIconElement} alt="weather-icon" id="weather-icon">
-                    <div id="weather-icon-name">${this.weathericonName}</div>
+                    <img src=${weatherIconURL} alt="weather-icon" id="weather-icon">
+                    <div id="weather-icon-name">${iconName}</div>
                 </div>
             </div>
             <h4>Weather Condition</h4>
             <div id="wb-wrapper">
                 <div id="temperature-wrapper">
                     <div id="temperature">
-                        <span class="value">${this.weatherTemp}</span>
+                        <span class="value">${Math.round(temperature)}</span>
                         <span class="degree">&deg</span>
                         <span class="unit">${this.temperatureUnit}</span>
                     </div>
@@ -56,17 +50,17 @@ const currentPlacesUI = {
                 <div id="weather-condition-wrapper">
                     <div id="wind-wrapper">
                         <span class="wname">Wind</span>
-                        <span class="value">${this.weatherWind}</span> 
+                        <span class="value">${wind}</span> 
                         <span class="unit">m/s</span>
                     </div>
                     <div id="humidity-wrapper">
                         <span class="wname">Humidity</span>
-                        <span class="value">${this.weatherHumidity}</span> 
+                        <span class="value">${humidity}</span> 
                         <span class="unit">&#37</span>
                     </div>
                     <div id="pressure-wrapper">
                         <span class="wname">Pressure</span>
-                        <span class="value">${this.weatherPressure}</span> 
+                        <span class="value">${pressure}</span> 
                         <span class="unit">Pa</span>
                     </div>
                 </div>
