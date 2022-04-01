@@ -74,11 +74,11 @@ const currentPlacesUI = {
     },
 
     onConvertTemperature(){
-        const convertTempBtn = document.querySelector(".temperature-converter");
+        const convTempButton = document.getElementByClassName("temperature-converter");
         const tempValueElement = document.querySelector("#temperature > .value");
 
-        convertTempBtn.addEventListener("click", () => {
-            switch(this.temperatureUnit) {
+        convTempButton.addEventListener("click", () => {
+            switch(this.temperatureValue){
                 case "C":
                     tempValueElement.innerText = parseInt(celsiusToFahrenheit(this.temperatureValue));
                 case "F":
