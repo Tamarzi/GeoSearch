@@ -20,7 +20,7 @@ const currentPlacesUI = {
         const coordinates = await coords();
         const {state, country} = await reverseGeoCode(coordinates);
         const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(coordinates);
-        const weatherIconURL = "../assets/heartpoint-64x64.png";
+        const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
         const pwbwrapperMarkup = `
         <div id="pwb-wrapper">
