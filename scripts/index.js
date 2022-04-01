@@ -14,12 +14,14 @@ const currentPlacesUI = {
 
 //        renderMap(this.mapFrame, this.coordinates);
         this.renderPlaceWeatherBoard();
+        this.onConvertTemperature();
     },
 
     async renderPlaceWeatherBoard(){
         const coordinates = await coords();
         const {state, country} = await reverseGeoCode(coordinates);
         const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(coordinates);
+        this.temperatureValue = temperature;
         const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
         const pwbwrapperMarkup = `
@@ -69,6 +71,20 @@ const currentPlacesUI = {
         `;
         this.placeWeatherBoardElement.innerHTML = ``;
         this.placeWeatherBoardElement.innerHTML = pwbwrapperMarkup;
+    },
+
+    onConvertTemperature(){
+        const convertTempBtn = document.querySelector(".temperature-converter");
+        const tempValueElement = document.querySelector("#temperature > .value");
+
+        convertTempBtn.addEventListener("click", () => {
+            switch(this.temperatureUnit) {
+                case "C":
+                    tempValueElement.innerText = parseInt(celsiusToFahrenheit(this.temperatureValue));
+                case "F":
+                    tempValueElement.innerText = parseInt(this.temperatureValue);
+            }
+        });
     }
 }
 
