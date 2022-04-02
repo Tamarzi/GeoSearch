@@ -3,6 +3,7 @@ import {reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
 import {weatherQueriesWithCoord} from "./weatherqueries.js";
+import { fahrenheitToCelsius } from "./temperatureconversion.js";
 
 const currentPlacesUI = {
     async init(){
@@ -13,7 +14,7 @@ const currentPlacesUI = {
         this.placeWeatherBoardElement.innerHTML = `<div class="loaderspin"></div>`;
 
 //        renderMap(this.mapFrame, this.coordinates);
-        this.renderPlaceWeatherBoard();
+        await this.renderPlaceWeatherBoard();
         this.onConvertTemperature();
     },
 
@@ -47,7 +48,8 @@ const currentPlacesUI = {
                         <span class="degree">&deg</span>
                         <span class="unit">${this.temperatureUnit}</span>
                     </div>
-                    <button class="temperature-converter">To Fahrenheit</button>
+                    <button id="celsius-to-fahrenheit" class="temperature-converter" style="display:block">To Fahrenheit</button>
+                    <button id="fahrenheit-to-celsius" class="temperature-converter" style="display:none">To Celsius</button>
                 </div>
                 <div id="weather-condition-wrapper">
                     <div id="wind-wrapper">
@@ -74,17 +76,21 @@ const currentPlacesUI = {
     },
 
     onConvertTemperature(){
-        const convTempButton = document.getElementByClassName("temperature-converter");
+        const celsToFahButton = document.getElementById("celsius-to-fahrenheit");
+        this.fahrToCelButton = document.getElementById("fahrenheit-to-celsius");
         const tempValueElement = document.querySelector("#temperature > .value");
 
-        convTempButton.addEventListener("click", () => {
-            switch(this.temperatureValue){
-                case "C":
-                    tempValueElement.innerText = parseInt(celsiusToFahrenheit(this.temperatureValue));
-                case "F":
-                    tempValueElement.innerText = parseInt(this.temperatureValue);
-            }
+        celToFahButton.addEventListener("click", () => {
+            tempValueElement.innerText = parseInt(celsiusToFahrenheit(this.temperatureValue));
+            this.style.display = "none";
+            fahrToCelButton.style.display = "block";
         });
+
+        fahrToCelButton.addEventListener("click", () => {
+            tempValueElement.innerText = parseInt(this.temperatureValue);
+            this.style.display = "none";
+            celToFahButton.style.display = "block";
+        })
     }
 }
 
