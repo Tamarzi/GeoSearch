@@ -3,7 +3,7 @@ import {reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
 import {weatherQueriesWithCoord} from "./weatherqueries.js";
-import { fahrenheitToCelsius } from "./temperatureconversion.js";
+import { celsiusToFahrenheit } from "./temperatureconversion.js";
 
 const currentPlacesUI = {
     async init(){
@@ -76,20 +76,25 @@ const currentPlacesUI = {
     },
 
     onConvertTemperature(){
-        const celsToFahButton = document.getElementById("celsius-to-fahrenheit");
-        this.fahrToCelButton = document.getElementById("fahrenheit-to-celsius");
+        const celsToFahrButton = document.getElementById("celsius-to-fahrenheit");
+        const fahrToCelButton = document.getElementById("fahrenheit-to-celsius");
         const tempValueElement = document.querySelector("#temperature > .value");
+        const tempUnitElement = document.querySelector(".unit");
 
-        celToFahButton.addEventListener("click", () => {
+        celsToFahrButton.addEventListener("click", (evt) => {
             tempValueElement.innerText = parseInt(celsiusToFahrenheit(this.temperatureValue));
-            this.style.display = "none";
+            this.temperatureUnit = "F";
+            tempUnitElement.innerText = this.temperatureUnit;
+            evt.target.style.display = "none";
             fahrToCelButton.style.display = "block";
         });
 
-        fahrToCelButton.addEventListener("click", () => {
+        fahrToCelButton.addEventListener("click", (evt) => {
             tempValueElement.innerText = parseInt(this.temperatureValue);
-            this.style.display = "none";
-            celToFahButton.style.display = "block";
+            this.temperatureUnit = "C";
+            tempUnitElement.innerText = this.temperatureUnit;
+            evt.target.style.display = "none";
+            celsToFahrButton.style.display = "block";
         })
     }
 }
