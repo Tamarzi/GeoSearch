@@ -104,9 +104,9 @@ main#main{
     justify-content: center;
     align-items: center;
 }
-iframe#map{ 
-    height: 90vh;
-    width: 100vw;
+
+img#map{
+    border: 1px solid var(--text-grey);
 }
 
 section#place-weather-board{
