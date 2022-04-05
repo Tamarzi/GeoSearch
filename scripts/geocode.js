@@ -6,7 +6,7 @@ const keys = {
 const reverseGeoCode = async(position) => {
     const {latitude, longitude} = position;
 
-    const URL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${keys.MAPQUEST_API_KEY}&location=${latitude}, ${longitude}`;
+    const URL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${keys.MAPQUEST_API_KEY}&location=${latitude},${longitude}`;
     try{
         const unCodedPlace = await fetch(URL, {"Method": "GET"});
         const data = await unCodedPlace.json();
@@ -26,8 +26,12 @@ const reverseGeoCode = async(position) => {
     }
 }
 
-const renderMap = (mapNode, position) => {
-    const URL = `https://www.google.com/maps/embed/v1/place?key=${keys.MY_GOOGLE_API_KEY}&q=${position.latitude},${position.longitude}`;
+const renderMap = (position) => {
+    const {latitude, longitude} = position;
+    //Set the map to the iframe element with id=map.
+    const mapNode = document.getElementById("map");
+    const URL = `https://www.mapquestapi.com/staticmap/v5/map?key=${keys.MAPQUEST_API_KEY}&locations=${latitude},${longitude}&center=${position.latitude},${position.longitude}&size=800,450`;
+//    const URL = `https://www.google.com/maps/embed/v1/place?key=${keys.MY_GOOGLE_API_KEY}&q=${position.latitude},${position.longitude}`;
     mapNode.src = URL;
 }
 

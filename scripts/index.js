@@ -8,20 +8,20 @@ import { celsiusToFahrenheit } from "./temperatureconversion.js";
 const currentPlacesUI = {
     async init(){
         this.temperatureUnit = "C";
-        //Set the map to the iframe element with id=map.
-        this.mapFrame = document.getElementById("map");
+        this.coordinates = await coords();
+        console.log(this.coordinates);
+
         this.placeWeatherBoardElement = document.getElementById("place-weather-board");
         this.placeWeatherBoardElement.innerHTML = `<div class="loaderspin"></div>`;
 
-//        renderMap(this.mapFrame, this.coordinates);
+        renderMap(this.coordinates);
         await this.renderPlaceWeatherBoard();
         this.onConvertTemperature();
     },
 
     async renderPlaceWeatherBoard(){
-        const coordinates = await coords();
-        const {state, country} = await reverseGeoCode(coordinates);
-        const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(coordinates);
+        const {state, country} = await reverseGeoCode(this.coordinates);
+        const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(this.coordinates);
         this.temperatureValue = temperature;
         const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
