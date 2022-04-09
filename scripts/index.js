@@ -16,7 +16,6 @@ const currentPlacesUI = {
 
         const placeDetails = await reverseGeoCode(this.coordinates);
         const weatherDetails = await weatherQueriesWithCoord(this.coordinates);
-        this.temperatureValue = temperature;
 
         renderMap(this.coordinates);
         await this.renderPlaceWeatherBoard( placeDetails, weatherDetails);
@@ -26,6 +25,7 @@ const currentPlacesUI = {
     async renderPlaceWeatherBoard(placeDetails, weatherDetails){
         const {state, country} = placeDetails;
         const {temperature, wind, humidity, pressure, iconId, iconName} = weatherDetails;
+        this.temperatureValue = temperature;
 
         const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
