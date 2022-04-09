@@ -138,7 +138,7 @@ section#place-weather-board{
     max-width: 59%;
 }
 #temperature-wrapper span{
-    font-size: 5em;
+    font-size: 3.5rem;
 }
 #weather-condition-wrapper{
     margin-top: 20px;
@@ -171,43 +171,69 @@ button.temperature-converter{
     background-color: rgb(223, 223, 223);
     border: 1px solid var(--shadow-grey);
 }
-section#notable-places-container{
-    display: flex;
-    flex-direction: column;
-}
-#notable-places-container > h3{
+h3.center{
     text-align: center;
-    padding: 5px;
+    padding: 10px;
 }
-div.notable-places-card{
-    background-color: white;
-    margin-top: 8px;
-    margin-bottom: 8px;
+#share-icon-section{
+    margin: 10px 0px;
+    border-top: 1px solid var(--chosen-grey);
+}
+#place-image{
+    border-top: 1px solid var(--chosen-grey);
+    margin: 10px 0px;
+}
+#place-picture{
     width: 100%;
-    box-shadow: 1.5px 1.5px 1.5px 1.5px var(--shadow-grey);
+    height: 280px;
+    margin: 20px 0px;
 }
-.notable-places-card > .notable-places-description{
+#sm-icons{
+    margin: 10px 0px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 15px;
+    justify-content: space-around;
 }
-.notable-places-description > div:first-child{
-    flex: 60%;
-    max-width: 60%;
+#sm-icons > a{
+    cursor: pointer;
+    text-shadow: 1.5px 1.5px 1.5px 1.5px var(--shadow-grey);
 }
-.notable-places-description > div:last-child{
-    flex: 38%;
-    max-width: 38%;
+#photos-container{
+    margin: 10px 0px;
+    border-top: 1px solid var(--chosen-grey);
+}
+#photo-slide{
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
 }
-img.notable-places-img{
+#photo-slide > img{
+    border-radius: 8px;
+    cursor: pointer;
+}
+#notable-places-container{
+    margin: 10px 0px;
+    border-top: 1px solid var(--chosen-grey);
+}
+div.np-card{
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0px;
+}
+div.np-card-desc{
+    flex: 68%;
+    max-width: 68%;
+    padding: 5px;
+}
+div.np-card-icon{
+    flex: 30%;
+    max-width: 30%;
+}
+img.np-icon{
     width: 100%;
-    height: 150px;
+    height: 100px;
+    border-radius: 5px;
 }
-
 /*Load spinner*/
 div.loaderspin{
     width: 100px;

@@ -1,5 +1,5 @@
 import {gmt, currentTime} from "./time.js";
-import {reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
+import {forwardGeoCode, reverseGeoCode, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
 import {weatherQueriesWithCoord} from "./weatherqueries.js";
@@ -14,15 +14,19 @@ const currentPlacesUI = {
         this.placeWeatherBoardElement = document.getElementById("place-weather-board");
         this.placeWeatherBoardElement.innerHTML = `<div class="loaderspin"></div>`;
 
+        const placeDetails = await reverseGeoCode(this.coordinates);
+        const weatherDetails = await weatherQueriesWithCoord(this.coordinates);
+        this.temperatureValue = temperature;
+
         renderMap(this.coordinates);
-        await this.renderPlaceWeatherBoard();
+        await this.renderPlaceWeatherBoard( placeDetails, weatherDetails);
         this.onConvertTemperature();
     },
 
-    async renderPlaceWeatherBoard(){
-        const {state, country} = await reverseGeoCode(this.coordinates);
-        const {temperature, wind, humidity, pressure, iconId, iconName} = await weatherQueriesWithCoord(this.coordinates);
-        this.temperatureValue = temperature;
+    async renderPlaceWeatherBoard(placeDetails, weatherDetails){
+        const {state, country} = placeDetails;
+        const {temperature, wind, humidity, pressure, iconId, iconName} = weatherDetails;
+
         const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}@2x.png`;
 
         const pwbwrapperMarkup = `
@@ -99,12 +103,13 @@ const currentPlacesUI = {
     }
 }
 
-const searchButtonUI = {
+const searchPlacesComponent = {
     async init(){      
         this.inp = document.getElementById("search-bar");
         this.renderAutoComplete();
         this.onKeyDown();
         this.closeAutoCompleteOnBodyClick();
+        this.onSearchButtonClick();
     },
 
     set queryStr(stringValue){
@@ -135,8 +140,30 @@ const searchButtonUI = {
         this.inp.addEventListener("keydown", (evt) => {
             autocomplete.keyUpDown(evt);
         });
+    },
+
+    async onSearchButtonClick(){
+        const searchPlacesButton = document.getElementById("submit");
+
+        searchPlacesButton.addEventListener("click", async() => {
+            searchPlacesButton.disabled = true;
+            this.placeWeatherBoardElement = ``;
+            this.placeWeatherBoardElement = `<div class="loaderspin"></div>`;
+            
+            const searchBar = document.getElementById("search-bar");
+            const placeAddress = searchBar.value;
+            const coordinates = await forwardGeoCode(placeAddress);
+            console.log(coordinates);
+//            const weather = await weatherQueriesWithCoord(coordinates);
+//            renderPlaceWeatherBoard();
+//            renderNotablePlaces();
+            renderMap(coordinates);
+
+            searchBar.value = "";
+            searchPlacesButton.disabled = false;
+        });
     }
 }
 
 currentPlacesUI.init();
-searchButtonUI.init();
+searchPlacesComponent.init();

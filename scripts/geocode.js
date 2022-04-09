@@ -3,6 +3,21 @@ const keys = {
     MAPQUEST_API_KEY: "W4SPlNvla5G56Tu2yD7AevlIAdqRokSI"
 }
 
+const forwardGeoCode = async(placeName) => {
+    const URL = `http://www.mapquestapi.com/geocoding/v1/address?key=${keys.MAPQUEST_API_KEY}&location=${placeName}`;
+
+    const response = await fetch(URL, 
+        {
+            "Method": "GET"
+        });
+        
+    const data = await response.json();
+    const latitude = data.results[0].locations[0].latLng.lat;
+    const longitude = data.results[0].locations[0].latLng.lng;
+
+    return {latitude, longitude};
+}
+
 const reverseGeoCode = async(position) => {
     const {latitude, longitude} = position;
 
@@ -50,4 +65,8 @@ const querySearchAhead = async(queryValue) => {
     return data.results;
 }
 
-export {reverseGeoCode, renderMap, querySearchAhead};
+const searchPlace = async(position) => {
+    const URL = `http://www.mapquestapi.com/search/v4/place?key=W4SPlNvla5G56Tu2yD7AevlIAdqRokSI&location=9.072264,%207.491302&q=hotel&sort=relevance`
+}
+
+export {forwardGeoCode, reverseGeoCode, renderMap, querySearchAhead};
