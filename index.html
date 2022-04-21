@@ -45,59 +45,76 @@
                         id="map"
                         src=""
                         alt="static map image"
+                        width="800"
+                        height="450"
                     >
                 </figure>
             </main>
             <aside id="navigation">
                 <section id="place-weather-board">
                     <div id="pwb-wrapper">
-                        <div id="pb-wrapper">
+                        <div id="pb-wrapper"><!--Remove from here-->
                             <div id="place-board">
-                                <p>CURRENT LOCATION:</p>
+                                <p id="f-address">Winners church Swali</p>
                                 <h2 id="place-name">
                                     <span id="state">Abuja</span>, 
                                     <span id="country">NG</span>
                                 </h2>
                             </div>
-                            <div id="weather-icon-wrapper">
-                                <img src="./assets/heartpoint-64x64.png" 
-                                    alt="weather-icon" 
-                                    id="weather-icon"
-                                >
-                                <div id="weather-icon-name">Broken Cloud</div>
-                            </div>
                         </div>
-                        <h4>Weather Condition</h4>
                         <div id="wb-wrapper">
-                            <div id="temperature-wrapper">
-                                <div id="temperature">
-                                    <span class="value">11</span>
-                                    <span class="degree">&deg</span>
-                                    <span class="unit">C</span>
+                            <div id="weather-board">
+                                <h4>
+                                    <span><i class="fas fa-thermometer-full"></i></span>
+                                    Weather Conditions
+                                </h4>
+                                <div id="temperature-wrapper">
+                                    <div id="temperature">
+                                        <span class="value">11</span>
+                                        <span class="degree">&deg</span>
+                                        <span class="unit">C</span>
+                                    </div>
+                                    <div id="weather-icon-wrapper">
+                                        <img src="./assets/heartpoint-64x64.png" 
+                                            alt="weather-icon" 
+                                            id="weather-icon"
+                                        >
+                                        <div id="weather-icon-name">Broken Cloud</div>
+                                    </div>
+                                </div>                            
+                                <div id="conversion-button">
+                                    <button class="temperature-converter">To Fahrenheit</button>
                                 </div>
-                                <button class="temperature-converter">To Fahrenheit</button>
-                            </div>
-                            <div id="weather-condition-wrapper">
-                                <div id="wind-wrapper">
-                                    <span class="wname">Wind</span>
-                                    <span class="value">5.1</span> 
-                                    <span class="unit">m/s</span>
-                                </div>
-                                <div id="humidity-wrapper">
-                                    <span class="wname">Humidity</span>
-                                    <span class="value">77</span> 
-                                    <span class="unit">&#37</span>
-                                </div>
-                                <div id="pressure-wrapper">
-                                    <span class="wname">Pressure</span>
-                                    <span class="value">1010</span> 
-                                    <span class="unit">Pa</span>
+                                <div id="weather-condition-wrapper">
+                                    <div id="wind-wrapper" class="weather-hover">
+                                        <label class="wname">Wind</label>
+                                        <div class="value-unit">
+                                            <span class="value">5.1</span> 
+                                            <span class="unit">m/s</span>
+                                        </div>
+                                    </div>
+                                    <div id="humidity-wrapper" class="weather-hover">
+                                        <label class="wname">Humidity</label>
+                                        <div class="value-unit">
+                                            <span class="value">77</span> 
+                                            <span class="unit">&#37</span>
+                                        </div>
+                                    </div>
+                                    <div id="pressure-wrapper" class="weather-hover">
+                                        <label class="wname">Pressure</label>
+                                        <div class="value-unit">
+                                            <span class="value">1010</span> 
+                                            <span class="unit">Pa</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="place-image">
-                        <img src=".././abuja.jpg" alt="" id="place-picture">
+                    <div id="place-image-wrapper">
+                        <div id="place-image">
+                            <img src=".././abuja.jpg" alt="" id="place-picture">
+                        </div>
                     </div>
                     <div id="share-icon-section">
                         <h3 class="center">Share</h3>
@@ -133,24 +150,42 @@
                     </div>
                     <div id="notable-places-container">
                         <h3 class="center">Notable Places</h3>
-                        <div class="np-card">
-                            <div class="np-card-desc">
-                                <p class="place-name"><strong>Tabernacle</strong></p>
-                                <div class="star-ratings">*****</div>
-                                <p class="category-name">Historical landmark</p>
+                        <div id="notable-places">
+                            <div class="np-card">
+                                <div class="np-card-desc">
+                                    <p class="place-name"><strong>Greenwich Meridian</strong></p>
+                                    <p class="address"><address>Blackhealt Ave, London, Greater London, GB</address></p>
+                                    <p class="category-name">Historical and Protected landmark</p>
+                                    <div class="star-ratings">
+                                        <span>5.0 </span>
+                                        <span class="star yellow"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                    </div>
+                                </div>
+                                <div class="np-card-icon">
+                                    <img src=".././abuja.jpg" alt="" class="np-icon">
+                                </div>
                             </div>
-                            <div class="np-card-icon">
-                                <img src=".././abuja.jpg" alt="" class="np-icon">
-                            </div>
-                        </div>
-                        <div class="np-card">
-                            <div class="np-card-desc">
-                                <p class="place-name"><strong>Tabernacle</strong></p>
-                                <div class="star-ratings">*****</div>
-                                <p class="category-name">Historical landmark</p>
-                            </div>
-                            <div class="np-card-icon">
-                                <img src=".././abuja.jpg" alt="" class="np-icon">
+                            <div class="np-card">
+                                <div class="np-card-desc">
+                                    <p class="place-name"><strong>Tabernacle</strong></p>
+                                    <p class="address"><address></address></p>
+                                    <p class="category-name">Historical landmark</p>
+                                    <div class="star-ratings">
+                                        <span>5.0 </span>
+                                        <span class="star yellow"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                        <span class="star"><i class="fas fa-star"></i></span>
+                                    </div>
+                                </div>
+                                <div class="np-card-icon">
+                                    <img src=".././abuja.jpg" alt="" class="np-icon">
+                                </div>
                             </div>
                         </div>
                     </div>

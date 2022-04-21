@@ -1,6 +1,7 @@
 const keys = {
     MY_GOOGLE_API_KEY: "AIzaSyDZJpUJo63HxFIUJEHOSX_L-5PyUmucYTk",
-    MAPQUEST_API_KEY: "W4SPlNvla5G56Tu2yD7AevlIAdqRokSI"
+    MAPQUEST_API_KEY: "W4SPlNvla5G56Tu2yD7AevlIAdqRokSI",
+    FOURSQUARE_API_KEY: "fsq3S900agOQ3grPYP+ol+m+ySBa3FY6u50yWXROKVFAav4="
 }
 
 const forwardGeoCode = async(placeName) => {
@@ -18,6 +19,7 @@ const forwardGeoCode = async(placeName) => {
     return {latitude, longitude};
 }
 
+/*
 const reverseGeoCode = async(position) => {
     const {latitude, longitude} = position;
 
@@ -38,6 +40,53 @@ const reverseGeoCode = async(position) => {
     }
     catch(e){
         console.log("Exceptional error - " + e);
+    }
+}*/
+
+const placeQuery = async(coordinates) => {
+    const {latitude, longitude} = coordinates;
+//    const {latitude, longitude} = {latitude: 9.0765, longitude: 7.3986};
+
+    const URL = `https://api.foursquare.com/v3/places/search?ll=${latitude},${longitude}&radius=90000`;
+    try{
+        const response = await fetch(URL, 
+            {
+                "method": "GET",
+                "mode": "cors",
+                "headers": {
+                    "authorization": "fsq3S900agOQ3grPYP+ol+m+ySBa3FY6u50yWXROKVFAav4=",
+                    "content-type": "application/json",
+//                    'Access-Control-Allow-Origin': 'origin'
+                }
+            }
+        );
+        const places = await response.json();
+
+        return places;
+    }
+    catch(e){
+        console.log("Exceptional Error: " + e);
+    }
+}
+
+const queryImages = async(imgId) => {
+    const URL = `https://api.foursquare.com/v3/places/${imgId}/photos`;
+    try{
+        const response = await fetch(URL, {
+            "method": "GET",
+            "mode": "cors",
+            "headers": {
+                "authorization": "fsq3S900agOQ3grPYP+ol+m+ySBa3FY6u50yWXROKVFAav4=",     //"authorization": "key" or "x-api-key"
+                "content-type": "application/json"
+            }
+        });
+
+        const imagesData = await response.json();
+
+        return imagesData;
+    }
+    catch(e){
+        console.log("Exceptional Error: " + e);
     }
 }
 
@@ -69,4 +118,4 @@ const searchPlace = async(position) => {
     const URL = `http://www.mapquestapi.com/search/v4/place?key=W4SPlNvla5G56Tu2yD7AevlIAdqRokSI&location=9.072264,%207.491302&q=hotel&sort=relevance`
 }
 
-export {forwardGeoCode, reverseGeoCode, renderMap, querySearchAhead};
+export {forwardGeoCode, placeQuery, queryImages, renderMap, querySearchAhead};
