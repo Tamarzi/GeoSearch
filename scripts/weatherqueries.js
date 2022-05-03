@@ -23,7 +23,7 @@ const weatherQueriesWithCoord = async(coordinates) => {
 };
 
 const weatherQueriesWithPlaceName = async(placeName) => {
-    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${place.city},${place.state},${place.country}&units=${linkMetaData.unit}&appid=${linkMetaData.openWeatherKey}`;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${place.city}&units=${linkMetaData.unit}&appid=${linkMetaData.openWeatherKey}`;
     const response = await fetch(URL, {
         "Method": "GET"
     });

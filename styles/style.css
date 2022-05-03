@@ -34,7 +34,12 @@ h2.h1{
     text-shadow: 1.5px 1.5px 1.5px var(--text-grey);
 }
 div#header-icon{
-    padding: 5px;
+    padding: 3px;
+}
+#header-icon > div{
+    border: 1px solid var(--chosen-grey);
+    border-radius: 8px;
+    padding: 2px;
 }
 form{
     margin-right: 10px;
@@ -67,6 +72,10 @@ button#submit{
     margin: 0px;
     border: 0px;
     cursor: pointer;
+    transition: color 0.5s;
+}
+button#submit:hover{
+    color: #0404a8;
 }
 #autocomplete-lists{
     position: absolute;
@@ -79,10 +88,13 @@ button#submit{
     border-top: none;
     border: 1px solid var(--shadow-grey);
 }
-#autocomplete-lists div{
+#autocomplete-lists>div{
     padding: 10px 15px;
     cursor: pointer;
     border-bottom: 1px solid #353535;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
 }
 .autocomplete-active{
     background-color: dodgerblue !important;
@@ -220,8 +232,10 @@ h3.center{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    overflow: hidden;
 }
 #photo-slide > img{
+    margin: 0px 10px;
     border-radius: 8px;
     width: 100px;
     height: 150px;

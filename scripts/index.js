@@ -1,5 +1,5 @@
 import {gmt, currentTime} from "./time.js";
-import {forwardGeoCode, placeQuery, queryImages, renderMap, querySearchAhead} from "./geocode.js";
+import {forwardGeoCode, placeQueryWithCoord, placeQueryWithName, queryImages, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
 import {weatherQueriesWithCoord} from "./weatherqueries.js";
@@ -18,18 +18,17 @@ const RenderBoardComponents = {
         document.getElementById("photo-slide").innerHTML = `<div class="loaderspin"></div>`;
         document.getElementById("notable-places").innerHTML = `<div class="loaderspin"></div>`;
         
-        const placeDetails = await placeQuery(this.coordinates);
+        const placeDetails = await placeQueryWithCoord(this.coordinates);
         const weatherDetails = await weatherQueriesWithCoord(this.coordinates);
 
         renderMap(this.coordinates);
-        await this.renderPlaceBoard(placeDetails);
-        await this.renderWeatherBoard(weatherDetails);
+        this.renderPlaceBoard(placeDetails);
+        this.renderWeatherBoard(weatherDetails);
         await this.renderPlaceImages(placeDetails);
-        await this.renderNotablePlaces(placeDetails);
-        this.onTemperatureConversionButtonClick();
+        this.renderNotablePlaces(placeDetails);
     },
 
-    async renderPlaceBoard(placeDetails){
+    renderPlaceBoard(placeDetails){
         
         const pbwrapperElement = document.getElementById("pb-wrapper");
         pbwrapperElement.innerHTML = `<div class=loaderspin></div>`;
@@ -41,16 +40,16 @@ const RenderBoardComponents = {
 
         pbwrapperElement.innerHTML = `
             <div id="place-board">
-                <p id="f-address">${name? name + ", ":""}</p>
-                <h2 id="place-name">
+                <h2 id="f-address">${name? name + ", ":""}</h2>
+                <p id="place-name">
                     <span id="state">${locality? locality + ", ":""}</span> 
                     <span id="country">${country? country + ". ":""}</span>
-                </h2>
+                </p>
             </div>
         `;
     },
 
-    async renderWeatherBoard(weatherDetails){
+    renderWeatherBoard(weatherDetails){
         const wbWrapper = document.getElementById("wb-wrapper");
 
         const {temperature, wind, humidity, pressure, iconId, iconName} = weatherDetails;
@@ -107,6 +106,8 @@ const RenderBoardComponents = {
                 </div>
             </div>
         `;
+        
+        this.onTemperatureConversionButtonClick();
     },
 
     async renderPlaceImages(placeDetails){
@@ -142,7 +143,7 @@ const RenderBoardComponents = {
         }
     },
 
-    async renderNotablePlaces(placeDetails){
+    renderNotablePlaces(placeDetails){
         const notablePlaces = document.getElementById("notable-places");
 
         notablePlaces.innerHTML = ``;
@@ -187,6 +188,29 @@ const RenderBoardComponents = {
         notablePlacesContainer.innerHTML += notablePlaces;
     },
 
+    renderErrorBoard(searchQuery){
+        document.getElementById("pb-wrapper").innerHTML = ``;
+        document.getElementById("wb-wrapper").innerHTML = ``;
+        document.getElementById("place-image-wrapper").innerHTML = ``;
+        document.getElementById("photo-slide").innerHTML = `No photos to display`;
+        document.getElementById("notable-places").innerHTML = `Search Incomplete`;
+
+        document.getElementById("error").innerHTML = `
+            <div>
+                <p><strong>Information for place with name '${searchQuery}' not found</strong></p>
+                <p>For precise information, Either choose from autocomplete menu or use the format - </p>
+                <br>
+                <q>Place Name, Locality</q>
+                <br>
+                <p>e.g. <kbd>Temple Square, Salt Lake City</kbd></p>
+            </div>
+            `;
+    },
+
+    clearErrorBoard(){
+        document.getElementById("error").innerHTML = ``;
+    },
+
     onTemperatureConversionButtonClick (){
         const celsToFahrButton = document.getElementById("celsius-to-fahrenheit");
         const fahrToCelButton = document.getElementById("fahrenheit-to-celsius");
@@ -211,7 +235,7 @@ const RenderBoardComponents = {
     }
 }
 
-const searchPlacesComponent = {
+const searchComponent = {
     async init(){      
         this.inp = document.getElementById("search-bar");
         this.renderAutoComplete();
@@ -241,6 +265,9 @@ const searchPlacesComponent = {
                 this.searchQueryResults = await querySearchAhead(this.queryStr);
                 autocomplete.dropDown(this.inp, this.searchQueryResults);
             }
+            else{
+                autocomplete.closeAllLists();
+            }
         });
     },
 
@@ -253,26 +280,52 @@ const searchPlacesComponent = {
     async onSearchButtonClick(){
         const searchPlacesButton = document.getElementById("submit");
 
-        searchPlacesButton.addEventListener("click", async() => {
-            searchPlacesButton.disabled = true;
-            this.placeWeatherBoardElement = ``;
-            this.placeWeatherBoardElement = `<div class="loaderspin"></div>`;
-            
+        searchPlacesButton.addEventListener("click", async(evt) => {
+
             const searchBar = document.getElementById("search-bar");
-            const placeAddress = searchBar.value;
-            const coordinates = await forwardGeoCode(placeAddress);
-            console.log(coordinates);
-//            const weather = await weatherQueriesWithCoord(coordinates);
-//            renderPlaceWeatherBoard();
-//            renderNotablePlaces();
+            const placeAddressString = searchBar.value;
+            
+            evt.target.disabled = true;
+
+            const placeAddressArray = placeAddressString.split(",");
+            const len = placeAddressArray.length;
+
+            let coordinates, placeDetails, weatherDetails;
+
+            if(len <= 2){
+                placeDetails = await placeQueryWithName(placeAddressArray);
+                console.log(placeDetails);
+                if(!placeDetails.results[0]){
+                    //make a speech bubble notify user to use the format "For precise response use format 'place name, locality'"
+                    RenderBoardComponents.renderErrorBoard(placeAddressArray[0]);
+                }
+                else{
+                    coordinates = placeDetails.results[0].geocodes.main;
+                    weatherDetails = await weatherQueriesWithCoord(coordinates);
+                }
+            }
+            if(len == 4){
+                const [name, , locality,] = placeAddressArray;
+                const paa = [name, locality];
+                placeDetails = await placeQueryWithName(paa);
+                coordinates = placeDetails.results[0].geocodes.main;
+                weatherDetails = await weatherQueriesWithCoord(coordinates);
+            }
+
             renderMap(coordinates);
 
+            RenderBoardComponents.clearErrorBoard();
+            RenderBoardComponents.renderPlaceBoard(placeDetails);
+            RenderBoardComponents.renderWeatherBoard(weatherDetails);
+            await RenderBoardComponents.renderPlaceImages(placeDetails);
+            RenderBoardComponents.renderNotablePlaces(placeDetails);
+
             searchBar.value = "";
-            searchPlacesButton.disabled = false;
+            evt.target.disabled = false;
         });
     }
 }
 
 RenderBoardComponents.init();
 
-searchPlacesComponent.init();
+searchComponent.init();
