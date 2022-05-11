@@ -20,7 +20,7 @@ header#header{
     top: 0px;
     background-color: var(--bluish);
     padding: 3px;
-    box-shadow: 1.5px 1.5px 1.5px var(--shadow-grey);
+    box-shadow: 1.5px 1.5px var(--shadow-grey);
 }
 #flex-container{
     display: flex;
