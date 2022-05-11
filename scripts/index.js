@@ -25,6 +25,7 @@ const RenderBoardComponents = {
         this.renderPlaceBoard(placeDetails);
         this.renderWeatherBoard(weatherDetails);
         await this.renderPlaceImages(placeDetails);
+        this.scrollPhotos();
         this.renderNotablePlaces(placeDetails);
     },
 
@@ -232,6 +233,64 @@ const RenderBoardComponents = {
             evt.target.style.display = "none";
             celsToFahrButton.style.display = "block";
         })
+    },
+
+    scrollPhotos(){
+        let posLeft = 0;
+        const photoSlide = document.getElementById("photo-slide");
+        const photoContainer = document.getElementById("photos-container");
+
+        //Every time the page loads set the scroll position to 0.
+        photoSlide.scroll(posLeft, 0);
+
+        photoContainer.addEventListener("mouseover", () => {
+            const imgArray = photoSlide.getElementsByTagName("img");
+            //if the images inside photocontainer is more than or equal to 3, do the following:
+            if(imgArray.length >= 3){
+
+                //Make visible the the prev button if photoslide is not at starting position.
+                if(photoSlide.scrollLeft > 0){
+                    document.getElementById("prev").style.visibility = "visible";
+                }
+
+                //Make visible the next buttion.
+                document.getElementById("next").style.visibility = "visible";
+            }
+        });
+
+        //On mouse out return to normal.
+        photoContainer.addEventListener("mouseout", () => {
+            document.getElementById("prev").style.visibility = "hidden";
+            document.getElementById("next").style.visibility = "hidden";
+        });
+
+        //On clicking prev buttion do the following.
+        document.getElementById("prev").addEventListener("click", (evt) => {
+            //if scroll is at the left end, execute as follows else
+            if(photoSlide.scrollLeft <= 0){
+                evt.preventDefault();
+                console.log("start" + true);
+            }
+            else{
+                posLeft -= 184.5;
+                photoSlide.scroll(posLeft, 0);
+                console.log("< clicked");
+            }
+        //    document.getElementById("scrollable-pane").scrollLeft -= 320;
+        });
+
+        document.getElementById("next").addEventListener("click", (evt) => {
+            //if scroll is at the right end, execute as follows else
+            if(photoSlide.offsetWidth + photoSlide.scrollLeft >= photoSlide.scrollWidth){
+                evt.preventDefault();
+                console.log("end" + true);
+            }
+            else{
+                posLeft += 184.5;
+                photoSlide.scroll(posLeft, 0);
+                console.log("> clicked");
+            }
+        });
     }
 }
 
