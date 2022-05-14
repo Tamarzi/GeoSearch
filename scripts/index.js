@@ -21,7 +21,7 @@ const RenderBoardComponents = {
         const placeDetails = await placeQueryWithCoord(this.coordinates);
         const weatherDetails = await weatherQueriesWithCoord(this.coordinates);
 
-        renderMap(this.coordinates);
+        renderMap(placeDetails);
         this.renderPlaceBoard(placeDetails);
         this.renderWeatherBoard(weatherDetails);
         await this.renderPlaceImages(placeDetails);
@@ -371,7 +371,7 @@ const searchComponent = {
                 weatherDetails = await weatherQueriesWithCoord(coordinates);
             }
 
-            renderMap(coordinates);
+            renderMap(placeDetails);
 
             RenderBoardComponents.clearErrorBoard();
             RenderBoardComponents.renderPlaceBoard(placeDetails);
