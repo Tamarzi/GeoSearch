@@ -1,3 +1,5 @@
+import { mapLoaderSpinHidden } from "./helper.js";
+
 const keys = {
     MY_GOOGLE_API_KEY: "AIzaSyDZJpUJo63HxFIUJEHOSX_L-5PyUmucYTk",
     MAPQUEST_API_KEY: "W4SPlNvla5G56Tu2yD7AevlIAdqRokSI",
@@ -133,6 +135,8 @@ const renderMap = (placeDetails) => {
     &size=@2x&center=${coordinates[0].latitude},${coordinates[0].longitude}&size=800,450`;
 //    const URL = `https://www.google.com/maps/embed/v1/place?key=${keys.MY_GOOGLE_API_KEY}&q=${position.latitude},${position.longitude}`;
     mapNode.src = URL;
+    
+    mapLoaderSpinHidden();
 }
 
 const querySearchAhead = async(queryValue) => {

@@ -1,4 +1,5 @@
 import {gmt, currentTime} from "./time.js";
+import { mapLoaderSpinVisible, searchButtonSpinOff, searchButtonSpinOn } from "./helper.js";
 import {forwardGeoCode, placeQueryWithCoord, placeQueryWithName, queryImages, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
@@ -9,9 +10,13 @@ import { celsiusToFahrenheit } from "./temperatureconversion.js";
 const RenderBoardComponents = {
     async init(){
         this.temperatureUnit = "C";
+
+        //try more ways to use the navigator.permissions.query({name: 'geolocation'})
         this.coordinates = await coords();
+        this.clearErrorBoard();
         console.log(this.coordinates);
 
+        mapLoaderSpinVisible();
         document.getElementById("pb-wrapper").innerHTML = `<div class="loaderspin"></div>`;
         document.getElementById("wb-wrapper").innerHTML = `<div class="loaderspin"></div>`;
         document.getElementById("place-image-wrapper").innerHTML = `<div class="loaderspin"></div>`;
@@ -146,9 +151,9 @@ const RenderBoardComponents = {
 
     renderNotablePlaces(placeDetails){
         const notablePlaces = document.getElementById("notable-places");
-
         notablePlaces.innerHTML = ``;
-        notablePlaces.innerHTML += placeDetails.results.map((place) => {
+
+        placeDetails.results.map((place) => {
             const rateMax = 5;
             const rating = Math.floor(Math.random() * (rateMax-1)) + 1;   //return a random between 1 and 5 both included
 
@@ -171,18 +176,25 @@ const RenderBoardComponents = {
                 imgSrc = place.categories[0].icon.prefix + "bg_120" + place.categories[0].icon.suffix;
             }
 
-            return  `<div class="np-card">
-                        <div class="np-card-desc">
+            const npCard = document.createElement("div");
+            npCard.setAttribute('class', 'np-card');
+            npCard.innerHTML = 
+                        `<div class="np-card-desc">
                             <p class="place-name"><strong>${place.name}</strong></p>
-                            <p class="address"><address>${place.location.formatted_address}</address></p>
-                            <p class="category-name">${categoryName}</p>` +
+                            <p class="address"><address>${place.location.formatted_address}.</address></p>
+                            <p class="category-name"><strong>${categoryName}</strong></p>` +
                             starRating +
                         `</div>
                         <div class="np-card-icon">
                             <img src=${imgSrc} alt="" class="np-icon">
-                        </div>
-                    </div>
-                    `;
+                        </div>`;
+
+                                
+            npCard.addEventListener('click', (evt) => {
+                console.log("npcard with" + place.name + "clicked", evt);
+            });
+
+            notablePlaces.appendChild(npCard);
         });
 
         const notablePlacesContainer = document.getElementById("notable-places-container");
@@ -193,8 +205,10 @@ const RenderBoardComponents = {
         document.getElementById("pb-wrapper").innerHTML = ``;
         document.getElementById("wb-wrapper").innerHTML = ``;
         document.getElementById("place-image-wrapper").innerHTML = ``;
-        document.getElementById("photo-slide").innerHTML = `No photos to display`;
-        document.getElementById("notable-places").innerHTML = `Search Incomplete`;
+
+        document.getElementById("share-icon-section").style.display = "none";
+        document.getElementById("photos-container").style.display = "none";
+        document.getElementById("notable-places-container").style.display = "none";
 
         document.getElementById("error").innerHTML = `
             <div>
@@ -210,6 +224,10 @@ const RenderBoardComponents = {
 
     clearErrorBoard(){
         document.getElementById("error").innerHTML = ``;
+
+        document.getElementById("share-icon-section").style.display = "block";
+        document.getElementById("photos-container").style.display = "block";
+        document.getElementById("notable-places-container").style.display = "block";
     },
 
     onTemperatureConversionButtonClick (){
@@ -337,14 +355,13 @@ const searchComponent = {
     },
 
     async onSearchButtonClick(){
-        const searchPlacesButton = document.getElementById("submit");
+        const searchPlacesButton = document.getElementsByClassName("submit")[0];
 
         searchPlacesButton.addEventListener("click", async(evt) => {
 
+            searchButtonSpinOn();
             const searchBar = document.getElementById("search-bar");
             const placeAddressString = searchBar.value;
-            
-            evt.target.disabled = true;
 
             const placeAddressArray = placeAddressString.split(",");
             const len = placeAddressArray.length;
@@ -371,6 +388,7 @@ const searchComponent = {
                 weatherDetails = await weatherQueriesWithCoord(coordinates);
             }
 
+            mapLoaderSpinVisible();
             renderMap(placeDetails);
 
             RenderBoardComponents.clearErrorBoard();
@@ -380,7 +398,7 @@ const searchComponent = {
             RenderBoardComponents.renderNotablePlaces(placeDetails);
 
             searchBar.value = "";
-            evt.target.disabled = false;
+            searchButtonSpinOff();
         });
     }
 }
