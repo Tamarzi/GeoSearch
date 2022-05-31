@@ -7,7 +7,7 @@ const keys = {
 }
 
 const forwardGeoCode = async(placeName) => {
-    const URL = `http://www.mapquestapi.com/geocoding/v1/address?key=${keys.MAPQUEST_API_KEY}&location=${placeName}`;
+    const URL = `https://www.mapquestapi.com/geocoding/v1/address?key=${keys.MAPQUEST_API_KEY}&location=${placeName}`;
 
     const response = await fetch(URL, 
         {
@@ -25,7 +25,7 @@ const forwardGeoCode = async(placeName) => {
 const reverseGeoCode = async(position) => {
     const {latitude, longitude} = position;
 
-    const URL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${keys.MAPQUEST_API_KEY}&location=${latitude},${longitude}`;
+    const URL = `https://www.mapquestapi.com/geocoding/v1/reverse?key=${keys.MAPQUEST_API_KEY}&location=${latitude},${longitude}`;
     try{
         const unCodedPlace = await fetch(URL, {"Method": "GET"});
         const data = await unCodedPlace.json();
@@ -146,7 +146,7 @@ const querySearchAhead = async(queryValue) => {
         collection: ["adminArea", "airport", "poi", "franchise"],
     }
 
-    const URL = `http://www.mapquestapi.com/search/v3/prediction?key=${keys.MAPQUEST_API_KEY}&limit=${reqObj.limit}&collection=${reqObj.collection}&q=${queryValue}`;
+    const URL = `https://www.mapquestapi.com/search/v3/prediction?key=${keys.MAPQUEST_API_KEY}&limit=${reqObj.limit}&collection=${reqObj.collection}&q=${queryValue}`;
 
     const requestPlaces = await fetch(URL, {"Method": "GET"});
     const data = await requestPlaces.json();
@@ -155,7 +155,7 @@ const querySearchAhead = async(queryValue) => {
 }
 
 const searchPlace = async(position) => {
-    const URL = `http://www.mapquestapi.com/search/v4/place?key=W4SPlNvla5G56Tu2yD7AevlIAdqRokSI&location=9.072264,%207.491302&q=hotel&sort=relevance`
+    const URL = `https://www.mapquestapi.com/search/v4/place?key=W4SPlNvla5G56Tu2yD7AevlIAdqRokSI&location=9.072264,%207.491302&q=hotel&sort=relevance`
 }
 
 export {forwardGeoCode, placeQueryWithCoord, placeQueryWithName, queryImages, renderMap, querySearchAhead};
