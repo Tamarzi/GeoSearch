@@ -1,16 +1,28 @@
-@media only screen and (min-width: 400px){
+@media only screen and (min-width: 286px){
     input[type="search"]{
-        width: 325px;
+        width: 200px;
+    }
+}
+@media only screen and (min-width: 360px){
+    input[type="search"]{
+        width: 250px;
     }
 }
 @media only screen and (min-width: 450px){
+    h2.h1{
+        display: inline-block;
+        font-size: 1rem;
+    }
+    #header-icon > div{
+        border-radius: 8px;
+    }
     form{
         margin-right: 30px;
     }
 }
 @media only screen and (min-width: 587px){
     h2.h1{
-        display: inline-block;
+        font-size: 1.5rem;
     }
 }
 @media only screen and (min-width: 768px){
@@ -18,7 +30,7 @@
         padding: 20px;
     }
     aside#navigation{
-        width: 30%;
+        width: 33%;
         position: fixed;
         left: 0px;
         float: left;
@@ -28,22 +40,40 @@
     .wlabels{
         width: 60%;
     }
+    #temperature > span{
+        font-size: 3.2rem;
+    }
+    .value-unit > span{
+        font-size: 0.8rem;
+    }
     main#main{
         position: fixed;
         right: 0px;
         display: flex;
-        width: 70%;
+        width: 67%;
         height: 95vh;
         justify-content: center;
         align-items: center;
     }
     img#map{
         margin: auto;
-        width: 90%;
-        height: 80%;    
+        width: 100%;
+        height: 100%;    
     }
 }
 @media only screen and (min-width: 880px){
+    aside#navigation{
+        width: 30%;
+    }
+    #temperature > span{
+        font-size: 3.5rem;
+    }
+    .value-unit > span{
+        font-size: 1rem;
+    }
+    main#main{
+        width: 70%;
+    }
     .wlabels{
         width: 70%;
     }
@@ -52,13 +82,16 @@
     }
 }
 @media only screen and (min-width: 938px){
-
     button#convert-temperature{
         width: 94%;
     }
 }
 @media only screen and (min-width: 965px){
-
+    img#map{
+        margin: auto;
+        width: 95%;
+        height: 90%;    
+    }
 }
 @media only screen and (min-width: 1033px){
     button#convert-temperature{
@@ -68,8 +101,5 @@
 @media only screen and (min-width: 1140px){
     button#convert-temperature{
         width: 90%;
-    }
-    img#map{
-        border: 1px solid var(--shadow-grey);
     }
 }
