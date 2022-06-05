@@ -17,7 +17,7 @@ const RenderBoardComponents = {
         console.log(this.coordinates);
 
         mapLoaderSpinVisible();
-        document.getElementById("pb-wrapper").innerHTML = `<div class="loaderspin"></div>`;
+        document.getElementById("pb-wrapper").innerHTML = `<div class ="loaderspin"></div>`;
         document.getElementById("wb-wrapper").innerHTML = `<div class="loaderspin"></div>`;
         document.getElementById("place-image-wrapper").innerHTML = `<div class="loaderspin"></div>`;
         document.getElementById("photo-slide").innerHTML = `<div class="loaderspin"></div>`;
@@ -35,170 +35,191 @@ const RenderBoardComponents = {
     },
 
     renderPlaceBoard(placeDetails){
-        
-        const pbwrapperElement = document.getElementById("pb-wrapper");
-        pbwrapperElement.innerHTML = `<div class=loaderspin></div>`;
-
-        const {country, locality, postcode} = placeDetails.results[0].location;
-        const name = placeDetails.results[0].name;
-        
-        pbwrapperElement.innerHTML = ``;
-
-        pbwrapperElement.innerHTML = `
-            <div id="place-board">
-                <h2 id="f-address">${name? name + ", ":""}</h2>
-                <p id="place-name">
-                    <span id="state">${locality? locality + ", ":""}</span> 
-                    <span id="country">${country? country + ". ":""}</span>
-                </p>
-            </div>
-        `;
+        if(placeDetails.results && placeDetails.results.length){
+            const pbwrapperElement = document.getElementById("pb-wrapper");
+            pbwrapperElement.innerHTML = `<div class=loaderspin></div>`;
+    
+            const {country, locality, postcode} = placeDetails.results[0].location;
+            const name = placeDetails.results[0].name;
+            
+            pbwrapperElement.innerHTML = ``;
+    
+            pbwrapperElement.innerHTML = `
+                <div id="place-board">
+                    <h2 id="f-address">${name? name + ", ":""}</h2>
+                    <p id="place-name">
+                        <span id="state">${locality? locality + ", ":""}</span> 
+                        <span id="country">${country? country + ". ":""}</span>
+                    </p>
+                </div>
+            `;
+        }
+        else{
+            console.log("Place details is not defined by Simon (placeboard)");
+        }
     },
 
     renderWeatherBoard(weatherDetails){
-        const wbWrapper = document.getElementById("wb-wrapper");
+        if(weatherDetails){
+            const wbWrapper = document.getElementById("wb-wrapper");
 
-        const {temperature, wind, humidity, pressure, iconId, iconName} = weatherDetails;
-        
-        const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}.png`;
-        this.temperatureValue = temperature;
+            const {temperature, wind, humidity, pressure, iconId, iconName} = weatherDetails;
+            
+            const weatherIconURL = `http://openweathermap.org/img/wn/${iconId}.png`;
+            this.temperatureValue = temperature;
+    
+            wbWrapper.innerHTML = `
+                <div id="weather-board">
+                    <h4>
+                        <span><i class="fas fa-thermometer-full"></i></span>
+                        Weather Conditions
+                    </h4>
+                    <div id="temperature-wrapper">
+                        <div id="temperature">
+                            <span class="value">${Math.round(temperature)}</span>
+                            <span class="degree">&deg</span>
+                            <span class="unit">${this.temperatureUnit}</span>
+                        </div>
+                        <div id="weather-icon-wrapper">
+                            <img src=${weatherIconURL} 
+                                alt="weather-icon" 
+                                id="weather-icon"
+                            >
+                            <div id="weather-icon-name">${iconName}</div>
+                        </div>
+                    </div>                            
+                    <div id="conversion-button">
+                        <button id="celsius-to-fahrenheit" class="temperature-converter">Convert to Fahrenheit</button>
+                        <button id="fahrenheit-to-celsius" class="temperature-converter" style="display:none">Convert to Celsius</button>
+                    </div>
+                    <div id="weather-condition-wrapper">
+                        <div id="wind-wrapper" class="weather-hover">
+                            <label class="wname">Wind</label>
+                            <div class="value-unit">
+                                <span class="value">${wind}</span> 
+                                <span class="unit">m/s</span>
+                            </div>
+                        </div>
+                        <div id="humidity-wrapper" class="weather-hover">
+                            <label class="wname">Humidity</label>
+                            <div class="value-unit">
+                                <span class="value">${humidity}</span> 
+                                <span class="unit">&#37</span>
+                            </div>
+                        </div>
+                        <div id="pressure-wrapper" class="weather-hover">
+                            <label class="wname">Pressure</label>
+                            <div class="value-unit">
+                                <span class="value">${pressure}</span> 
+                                <span class="unit">Pa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            this.onTemperatureConversionButtonClick();
+        }
+        else{
+            console.log("weatherdetails is not defined by Simon (weatherboard)");
+        }
 
-        wbWrapper.innerHTML = `
-            <div id="weather-board">
-                <h4>
-                    <span><i class="fas fa-thermometer-full"></i></span>
-                    Weather Conditions
-                </h4>
-                <div id="temperature-wrapper">
-                    <div id="temperature">
-                        <span class="value">${Math.round(temperature)}</span>
-                        <span class="degree">&deg</span>
-                        <span class="unit">${this.temperatureUnit}</span>
-                    </div>
-                    <div id="weather-icon-wrapper">
-                        <img src=${weatherIconURL} 
-                            alt="weather-icon" 
-                            id="weather-icon"
-                        >
-                        <div id="weather-icon-name">${iconName}</div>
-                    </div>
-                </div>                            
-                <div id="conversion-button">
-                    <button id="celsius-to-fahrenheit" class="temperature-converter">Convert to Fahrenheit</button>
-                    <button id="fahrenheit-to-celsius" class="temperature-converter" style="display:none">Convert to Celsius</button>
-                </div>
-                <div id="weather-condition-wrapper">
-                    <div id="wind-wrapper" class="weather-hover">
-                        <label class="wname">Wind</label>
-                        <div class="value-unit">
-                            <span class="value">${wind}</span> 
-                            <span class="unit">m/s</span>
-                        </div>
-                    </div>
-                    <div id="humidity-wrapper" class="weather-hover">
-                        <label class="wname">Humidity</label>
-                        <div class="value-unit">
-                            <span class="value">${humidity}</span> 
-                            <span class="unit">&#37</span>
-                        </div>
-                    </div>
-                    <div id="pressure-wrapper" class="weather-hover">
-                        <label class="wname">Pressure</label>
-                        <div class="value-unit">
-                            <span class="value">${pressure}</span> 
-                            <span class="unit">Pa</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        this.onTemperatureConversionButtonClick();
     },
 
     async renderPlaceImages(placeDetails){
-        const placeImageElement = document.getElementById("place-image-wrapper");
+        if(placeDetails.results && placeDetails.results.length){
+            const placeImageElement = document.getElementById("place-image-wrapper");
         
-        const photoSlide = document.getElementById("photo-slide");
+            const photoSlide = document.getElementById("photo-slide");
+    
+            const fsqId = placeDetails.results[0].fsq_id;
+            
+            const placeImagesRes = await queryImages(fsqId);
+    
+            placeImageElement.innerHTML = ``;
+            photoSlide.innerHTML = ``;
+    
+            let i, len = placeImagesRes.length;
+            console.log(len);
 
-        const fsqId = placeDetails.results[0].fsq_id;
-        
-        const placeImagesRes = await queryImages(fsqId);
-
-        photoSlide.innerHTML = ``;
-
-        let i, len = placeImagesRes.length;
-        console.log(len);
-
-        if(len <= 1){
-            photoSlide.innerHTML = `<p>No image to render here</p>`;    //not working, why??
-        }
-
-        for(i=0; i < len; i++){
-            const imgSrc = placeImagesRes[i].prefix + "original" + placeImagesRes[i].suffix;
-
-            if(i === 0){
-                const placeImageOne = `<img src=${imgSrc} alt="" id="place-picture">`;
+            if(len === 0){
                 placeImageElement.innerHTML = ``;
-                placeImageElement.innerHTML = `<di id="place-image">` + placeImageOne + `</div>`;
             }
-            else{
-                const placeImageOthers = `<img src=${imgSrc} alt="" class="place-photo">`;
-                photoSlide.innerHTML += placeImageOthers;
+    
+            if(len <= 1){
+                photoSlide.innerHTML = `<p>No image to render here</p>`;    //not working, why??
+            }
+    
+            for(i=0; i < len; i++){
+                const imgSrc = placeImagesRes[i].prefix + "original" + placeImagesRes[i].suffix;
+    
+                if(i === 0){
+                    const placeImageOne = `<img src=${imgSrc} alt="" id="place-picture">`;
+                    placeImageElement.innerHTML = ``;
+                    placeImageElement.innerHTML = `<di id="place-image">` + placeImageOne + `</div>`;
+                }
+                else{
+                    const placeImageOthers = `<img src=${imgSrc} alt="" class="place-photo">`;
+                    photoSlide.innerHTML += placeImageOthers;
+                }
             }
         }
+
     },
 
     renderNotablePlaces(placeDetails){
-        const notablePlaces = document.getElementById("notable-places");
-        notablePlaces.innerHTML = ``;
-
-        placeDetails.results.map((place) => {
-            const rateMax = 5;
-            const rating = Math.floor(Math.random() * (rateMax-1)) + 1;   //return a random between 1 and 5 both included
-
-            let starRating = `<div class="star-ratings"><span>${rating + ".0"} </span>`;
-            for(let i = 1; i <= rateMax; i++){
-                if(i <= rating){
-                    starRating += `<span class="star yellow"><i class="fas fa-star"></i></span>`;
+        if(placeDetails.results && placeDetails.results.length){
+            const notablePlaces = document.getElementById("notable-places");
+            notablePlaces.innerHTML = ``;
+    
+            placeDetails.results.map((place) => {
+                const rateMax = 5;
+                const rating = Math.floor(Math.random() * (rateMax-1)) + 1;   //return a random between 1 and 5 both included
+    
+                let starRating = `<div class="star-ratings"><span>${rating + ".0"} </span>`;
+                for(let i = 1; i <= rateMax; i++){
+                    if(i <= rating){
+                        starRating += `<span class="star yellow"><i class="fas fa-star"></i></span>`;
+                    }
+                    else{
+                        starRating += `<span class="star"><i class="fas fa-star"></i></span>`;
+                        if(i === rateMax)
+                            starRating += `</div>`
+                    }                
                 }
-                else{
-                    starRating += `<span class="star"><i class="fas fa-star"></i></span>`;
-                    if(i === rateMax)
-                        starRating += `</div>`
-                }                
-            }
-            let imgSrc = "../assets/themepark_bg.png";
-            let categoryName = "";
-
-            if(place.categories[0]){
-                categoryName = place.categories[0].name;
-                imgSrc = place.categories[0].icon.prefix + "bg_120" + place.categories[0].icon.suffix;
-            }
-
-            const npCard = document.createElement("div");
-            npCard.setAttribute('class', 'np-card');
-            npCard.innerHTML = 
-                        `<div class="np-card-desc">
-                            <p class="place-name"><strong>${place.name}</strong></p>
-                            <p class="address"><address>${place.location.formatted_address}.</address></p>
-                            <p class="category-name"><strong>${categoryName}</strong></p>` +
-                            starRating +
-                        `</div>
-                        <div class="np-card-icon">
-                            <img src=${imgSrc} alt="" class="np-icon">
-                        </div>`;
-
-                                
-            npCard.addEventListener('click', (evt) => {
-                console.log("npcard with" + place.name + "clicked", evt);
+                let imgSrc = "../assets/themepark_bg.png";
+                let categoryName = "";
+    
+                if(place.categories[0]){
+                    categoryName = place.categories[0].name;
+                    imgSrc = place.categories[0].icon.prefix + "bg_120" + place.categories[0].icon.suffix;
+                }
+    
+                const npCard = document.createElement("div");
+                npCard.setAttribute('class', 'np-card');
+                npCard.innerHTML = 
+                            `<div class="np-card-desc">
+                                <p class="place-name"><strong>${place.name}</strong></p>
+                                <p class="address"><address>${place.location.formatted_address}.</address></p>
+                                <p class="category-name"><strong>${categoryName}</strong></p>` +
+                                starRating +
+                            `</div>
+                            <div class="np-card-icon">
+                                <img src=${imgSrc} alt="" class="np-icon">
+                            </div>`;
+    
+                                    
+                npCard.addEventListener('click', (evt) => {
+                    console.log("npcard with" + place.name + "clicked", evt);
+                });
+    
+                notablePlaces.appendChild(npCard);
             });
+    
+            const notablePlacesContainer = document.getElementById("notable-places-container");
+            notablePlacesContainer.innerHTML += notablePlaces;
+        }
 
-            notablePlaces.appendChild(npCard);
-        });
-
-        const notablePlacesContainer = document.getElementById("notable-places-container");
-        notablePlacesContainer.innerHTML += notablePlaces;
     },
 
     renderErrorBoard(searchQuery){
@@ -373,15 +394,23 @@ const searchComponent = {
                 console.log(placeDetails);
                 if(!placeDetails.results[0]){
                     //make a speech bubble notify user to use the format "For precise response use format 'place name, locality'"
-                    RenderBoardComponents.renderErrorBoard(placeAddressArray[0]);
+//                    RenderBoardComponents.renderErrorBoard(placeAddressArray[0]);
+                    console.log("placeDetails undefined (len < 2)");
                 }
                 else{
                     coordinates = placeDetails.results[0].geocodes.main;
                     weatherDetails = await weatherQueriesWithCoord(coordinates);
                 }
             }
-            if(len == 4){
-                const [name, , locality,] = placeAddressArray;
+            else{
+                let name, locality;
+                if(len === 3){
+                    [name, locality] = placeAddressArray;
+                }
+                if(len === 4){
+                    [name, , locality,] = placeAddressArray;
+                }
+
                 const paa = [name, locality];
                 placeDetails = await placeQueryWithName(paa);
                 coordinates = placeDetails.results[0].geocodes.main;
@@ -389,8 +418,8 @@ const searchComponent = {
             }
 
             mapLoaderSpinVisible();
+            
             renderMap(placeDetails);
-
             RenderBoardComponents.clearErrorBoard();
             RenderBoardComponents.renderPlaceBoard(placeDetails);
             RenderBoardComponents.renderWeatherBoard(weatherDetails);

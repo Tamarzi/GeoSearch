@@ -78,7 +78,6 @@ const placeQueryWithName = async(placeAddressArray) => {
     if(!locality){
         URL = `https://api.foursquare.com/v3/places/search?query=${name}`;
     }
-
     try{
         const response = await fetch(URL, {
             "method": "GET",
@@ -126,15 +125,19 @@ const renderMap = (placeDetails) => {
     const coordinates = placeDetails.results.map((res) => res.geocodes.main);
 
     //Set the map to the iframe element with id=map.
-    const mapNode = document.getElementById("map");
-    const URL = `https://www.mapquestapi.com/staticmap/v5/map?key=${keys.MAPQUEST_API_KEY}
-    &locations=${coordinates[0].latitude},${coordinates[0].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304644/geosearch/heartpoint-64x64_zkhnig.png
-    ||${coordinates[1].latitude},${coordinates[1].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304649/geosearch/silverheart-64x64_lztjes.png
-    ||${coordinates[2].latitude},${coordinates[2].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304649/geosearch/silverheart-64x64_lztjes.png
-    ||${coordinates[3].latitude},${coordinates[3].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304649/geosearch/silverheart-64x64_lztjes.png
-    &size=@2x&center=${coordinates[0].latitude},${coordinates[0].longitude}&size=800,450`;
-//    const URL = `https://www.google.com/maps/embed/v1/place?key=${keys.MY_GOOGLE_API_KEY}&q=${position.latitude},${position.longitude}`;
-    mapNode.src = URL;
+    if(coordinates && coordinates.length){
+        let URL = `https://www.mapquestapi.com/staticmap/v5/map?key=${keys.MAPQUEST_API_KEY}
+        &locations=${coordinates[0].latitude},${coordinates[0].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304644/geosearch/heartpoint-64x64_zkhnig.png`;
+        const len = coordinates.length;
+        for(let i = 1; i < len; i++){
+            URL += `||${coordinates[i].latitude},${coordinates[i].longitude}|https://res.cloudinary.com/trmrskie/image/upload/v1652304649/geosearch/silverheart-64x64_lztjes.png`;
+        }
+        URL += `&size=@2x&center=${coordinates[0].latitude},${coordinates[0].longitude}&size=800,450`;
+        document.getElementById("map").src = URL;
+    }
+    else{
+        console.log("Cannot get coordinates");
+    }
     
     mapLoaderSpinHidden();
 }
