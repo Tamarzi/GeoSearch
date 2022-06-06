@@ -51,6 +51,35 @@ form{
 div#form-container{
     position: relative;
 }
+.tooltip{
+    position: relative;
+}
+.tooltip > #tooltiptext{
+    visibility: hidden;
+    position: absolute;
+    top: 120%;
+    left: -5px;
+    z-index: 12;
+    text-align: justify;
+    color: rgb(109, 109, 109);
+    background-color: var(--chosen-grey);
+    width: 105%;
+    border: 1px solid var(--shadow-grey);
+    border-radius: 5px;
+    padding: 5px;
+    transition: visibility 2s;
+}
+.tooltip:hover #tooltiptext{
+    visibility: visible;
+}
+.tooltip #tooltiptext::after{
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 10%;
+    border: 8px solid;
+    border-color: transparent transparent var(--shadow-grey) transparent;
+}
 div#search-bar-container{
     display: inline-block;
 }

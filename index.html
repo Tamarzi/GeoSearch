@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <form autocomplete="off">
-                    <div id="form-container">
+                    <div id="form-container" class="tooltip">
                         <div id="search-bar-container">
                             <input type="search" id="search-bar" placeholder="search a place ...">
                         </div>
@@ -39,6 +39,15 @@
                         <button class="spinner" type="button" disabled>
                             <i class="fas fa-2x fa-spinner"></i>
                         </button>
+                        <div id="tooltiptext">
+                            <div id="info">
+                                <p>For quality search experience, either choose from autocomplete menu or use the format below: </p>
+                                <br>
+                                <q>Place Name, Locality</q>
+                                <br>
+                                <p>e.g. <kbd>Temple Square, Salt Lake City</kbd></p>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
