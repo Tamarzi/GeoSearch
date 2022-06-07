@@ -1,5 +1,5 @@
 import {gmt, currentTime} from "./time.js";
-import { mapLoaderSpinVisible, searchButtonSpinOff, searchButtonSpinOn } from "./helper.js";
+import { mapLoaderSpinVisible, searchButtonSpinOff, searchButtonSpinOn, closeToolTip, mouseOverToolTip, mouseLeaveToolTip } from "./helper.js";
 import {forwardGeoCode, placeQueryWithCoord, placeQueryWithName, queryImages, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
@@ -340,6 +340,9 @@ const searchComponent = {
         this.onKeyDown();
         this.closeAutoCompleteOnBodyClick();
         this.onSearchButtonClick();
+//find a better place to put the functions below.
+        mouseOverToolTip();
+        mouseLeaveToolTip();
     },
 
     set queryStr(stringValue){
@@ -360,6 +363,7 @@ const searchComponent = {
         this.inp.addEventListener("input", async(evt) => {
             this.queryStr = evt.target.value;
             if(this.queryStr.length > 1){
+                closeToolTip();
                 this.searchQueryResults = await querySearchAhead(this.queryStr);
                 autocomplete.dropDown(this.inp, this.searchQueryResults);
             }
