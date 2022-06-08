@@ -15,17 +15,5 @@ const searchButtonSpinOff = () => {
     document.getElementsByClassName("submit")[0].style.display = "inline-block";
     document.getElementsByClassName("spinner")[0].style.display = "none";
 }
-const closeToolTip = () => {
-    document.querySelector(".tooltip > #tooltiptext").style.visibility = "hidden";
-}
-const mouseOverToolTip = () => {
-    document.querySelector(".tooltip").addEventListener("mouseover", (evt) => {
-        document.getElementById("tooltiptext").style.visibility = "visible";
-    });
-}
-const mouseLeaveToolTip = () => {
-    document.querySelector(".tooltip").addEventListener("mouseleave", (evt) => {
-        document.getElementById("tooltiptext").style.visibility = "hidden";
-    });
-}
-export { mapLoaderSpinVisible, mapLoaderSpinHidden, searchButtonSpinOn, searchButtonSpinOff, closeToolTip, mouseOverToolTip, mouseLeaveToolTip };
+
+export { mapLoaderSpinVisible, mapLoaderSpinHidden, searchButtonSpinOn, searchButtonSpinOff };

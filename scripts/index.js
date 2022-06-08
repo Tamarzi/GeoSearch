@@ -1,5 +1,5 @@
 import {gmt, currentTime} from "./time.js";
-import { mapLoaderSpinVisible, searchButtonSpinOff, searchButtonSpinOn, closeToolTip, mouseOverToolTip, mouseLeaveToolTip } from "./helper.js";
+import { mapLoaderSpinVisible, searchButtonSpinOff, searchButtonSpinOn } from "./helper.js";
 import {forwardGeoCode, placeQueryWithCoord, placeQueryWithName, queryImages, renderMap, querySearchAhead} from "./geocode.js";
 import {autocomplete} from "./autocomplete.js";
 import coords from "./coordinates.js";
@@ -222,27 +222,6 @@ const RenderBoardComponents = {
 
     },
 
-    renderErrorBoard(searchQuery){
-        document.getElementById("pb-wrapper").innerHTML = ``;
-        document.getElementById("wb-wrapper").innerHTML = ``;
-        document.getElementById("place-image-wrapper").innerHTML = ``;
-
-        document.getElementById("share-icon-section").style.display = "none";
-        document.getElementById("photos-container").style.display = "none";
-        document.getElementById("notable-places-container").style.display = "none";
-
-        document.getElementById("error").innerHTML = `
-            <div>
-                <p><strong>Information for place with name '${searchQuery}' not found</strong></p>
-                <p>For precise information, Either choose from autocomplete menu or use the format - </p>
-                <br>
-                <q>Place Name, Locality</q>
-                <br>
-                <p>e.g. <kbd>Temple Square, Salt Lake City</kbd></p>
-            </div>
-            `;
-    },
-
     clearErrorBoard(){
         document.getElementById("error").innerHTML = ``;
 
@@ -341,8 +320,6 @@ const searchComponent = {
         this.closeAutoCompleteOnBodyClick();
         this.onSearchButtonClick();
 //find a better place to put the functions below.
-        mouseOverToolTip();
-        mouseLeaveToolTip();
     },
 
     set queryStr(stringValue){
@@ -363,7 +340,7 @@ const searchComponent = {
         this.inp.addEventListener("input", async(evt) => {
             this.queryStr = evt.target.value;
             if(this.queryStr.length > 1){
-                closeToolTip();
+                ToolTipComponent.closeToolTip();
                 this.searchQueryResults = await querySearchAhead(this.queryStr);
                 autocomplete.dropDown(this.inp, this.searchQueryResults);
             }
@@ -397,8 +374,13 @@ const searchComponent = {
                 placeDetails = await placeQueryWithName(placeAddressArray);
                 console.log(placeDetails);
                 if(!placeDetails.results[0]){
-                    //make a speech bubble notify user to use the format "For precise response use format 'place name, locality'"
-//                    RenderBoardComponents.renderErrorBoard(placeAddressArray[0]);
+
+                    ToolTipComponent.closeToolTip();  
+                    ToolTipComponent.openErrorToolTip(placeAddressString);
+                      
+                    setTimeout(()=>{
+                        ToolTipComponent.closeErrorToolTip();
+                    }, 3000);
                     console.log("placeDetails undefined (len < 2)");
                 }
                 else{
@@ -436,6 +418,45 @@ const searchComponent = {
     }
 }
 
-RenderBoardComponents.init();
+const ToolTipComponent = {
+    init(){
+        this.mouseOverToolTip();
+        this.mouseLeaveToolTip();
+    },
+    openErrorToolTip(searchquery){
+        const errortiptext = document.getElementById("errortiptext");
+        errortiptext.innerHTML = `
+            <div>
+                <p>${searchquery} not found!!, choose from autocomplete menu or use the format below: </p>
+                <br>
+                <p>
+                    <q>Place Name, Locality</q>
+                    <br>
+                    <p>e.g. <kbd>Eiffel, Paris</kbd></p>
+                </p>
+            </div>
+        `;
 
+        errortiptext.style.visibility = 'visible';
+    },
+    closeErrorToolTip(){
+        document.getElementById("errortiptext").style.visibility = "hidden";
+    },
+    closeToolTip(){
+        document.querySelector(".tooltip > #tooltiptext").style.visibility = "hidden";
+    },
+    mouseOverToolTip(){
+        document.querySelector(".tooltip").addEventListener("mouseover", (evt) => {
+            document.getElementById("tooltiptext").style.visibility = "visible";
+        });
+    },
+    mouseLeaveToolTip(){
+        document.querySelector(".tooltip").addEventListener("mouseleave", (evt) => {
+            document.getElementById("tooltiptext").style.visibility = "hidden";
+        });
+    }
+}
+
+RenderBoardComponents.init();
 searchComponent.init();
+ToolTipComponent.init();
