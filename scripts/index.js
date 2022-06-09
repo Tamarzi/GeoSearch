@@ -376,7 +376,7 @@ const searchComponent = {
                 if(!placeDetails.results[0]){
 
                     ToolTipComponent.closeToolTip();  
-                    ToolTipComponent.openErrorToolTip(placeAddressString);
+                    ToolTipComponent.openErrorToolTip();
                       
                     setTimeout(()=>{
                         ToolTipComponent.closeErrorToolTip();
@@ -423,11 +423,11 @@ const ToolTipComponent = {
         this.mouseOverToolTip();
         this.mouseLeaveToolTip();
     },
-    openErrorToolTip(searchquery){
+    openErrorToolTip(){
         const errortiptext = document.getElementById("errortiptext");
         errortiptext.innerHTML = `
             <div>
-                <p>${searchquery} not found!!, choose from autocomplete menu or use the format below: </p>
+                <p>Not found!!, choose from autocomplete menu or use the format below: </p>
                 <br>
                 <p>
                     <q>Place Name, Locality</q>

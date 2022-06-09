@@ -54,12 +54,12 @@ div#form-container{
 .tooltip{
     position: relative;
 }
-.tooltip > #tooltiptext{
+#tooltiptext, #errortiptext{
     visibility: hidden;
     position: absolute;
     top: 120%;
     left: -5px;
-    z-index: 12;
+    z-index: 1;
     text-align: justify;
     color: rgb(109, 109, 109);
     background-color: var(--chosen-grey);
@@ -67,12 +67,13 @@ div#form-container{
     border: 1px solid var(--shadow-grey);
     border-radius: 5px;
     padding: 5px;
-    transition: visibility 2s;
 }
-.tooltip:hover #tooltiptext{
-    visibility: visible;
+#errortiptext{
+    z-index: 2;
+    color: red;
+    border: 1px solid red;
 }
-.tooltip #tooltiptext::after{
+.tooltip > #tooltiptext::after{
     content: " ";
     position: absolute;
     bottom: 100%;
