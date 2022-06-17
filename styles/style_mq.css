@@ -29,6 +29,15 @@
     div#header-icon{
         padding: 20px;
     }
+    #autocomplete-lists > div:first-child, #autocomplete-lists{
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    #autocomplete-lists > div:last-child, #autocomplete-lists{
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-bottom: none;
+    }
     aside#navigation{
         width: 33%;
         position: fixed;
