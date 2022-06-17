@@ -17,6 +17,7 @@ body{
     color: var(--bluish);
 }
 header#header{
+    position: relative;
     top: 0px;
     background-color: var(--bluish);
     padding: 3px;

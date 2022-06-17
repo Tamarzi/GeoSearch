@@ -23,9 +23,12 @@ const autocomplete = {
 
         });
 
-        this.formContainer = document.getElementById("form-container");
-        this.formContainer.appendChild(autoComList);
-        //Or evt.target.parentNode.appendChild(autoComList);
+        if(screen.width > 768){
+            document.getElementById('form-container').appendChild(autoComList);
+        }
+        else{
+            document.getElementById('header').appendChild(autoComList);
+        }
     },
 
     keyUpDown(evt){
@@ -52,7 +55,8 @@ const autocomplete = {
         let i, len = autoComListClass.length;
         for(i = 0; i < len; i++){
             if(autoComListClass[i])
-                this.formContainer.removeChild(autoComListClass[i]);
+                //this.formContainer.removeChild(autoComListClass[i]);
+                autoComListClass[i].parentNode.removeChild(autoComListClass[i]);
         }
 
         //set currentFocus = -1 everytime the lists is closed.
