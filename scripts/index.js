@@ -139,7 +139,8 @@ const RenderBoardComponents = {
             placeImageElement.innerHTML = ``;
             photoSlide.innerHTML = ``;
     
-            let i, len = placeImagesRes.length;
+            let i;
+            let len = placeImagesRes ? placeImagesRes.length : 0;
             console.log(len);
 
             if(len === 0){
